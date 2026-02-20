@@ -392,6 +392,17 @@ const App = () => {
           color: white;
         }
         
+        /* Dark mode button styling */
+        .dark-mode .button-secondary {
+          color: #cbd5e1;
+          border-color: #cbd5e1;
+        }
+        
+        .dark-mode .button-secondary:hover {
+          background: #cbd5e1;
+          color: #1e293b;
+        }
+        
         .toggle-button {
           px-6 py-2;
           rounded-full;
@@ -426,6 +437,11 @@ const App = () => {
           border: 1px solid #efe9e0;
         }
         
+        .dark-mode .resource-card {
+          background: #1e293b;
+          border-color: #334155;
+        }
+        
         .resource-card:hover {
           border-color: #a89968;
           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
@@ -441,6 +457,12 @@ const App = () => {
           background: #f5f1e8;
           border-radius: 50%;
           transition: all 0.3s ease;
+          color: #000;
+        }
+        
+        .dark-mode .icon-wrapper {
+          background: #334155;
+          color: #cbd5e1;
         }
         
         .resource-card:hover .icon-wrapper {
@@ -838,72 +860,13 @@ const App = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            {[
-              {
-                quote: "The sessions helped me understand myself better. No judgement, just genuine listening.",
-                author: "Priya S.",
-                role: "College Student"
-              },
-              {
-                quote: "Finally found someone who understands psychology not just academically, but deeply.",
-                author: "Arjun M.",
-                role: "Psychology Major"
-              },
-              {
-                quote: "The person-centred approach made all the difference. I felt truly heard.",
-                author: "Meera K.",
-                role: "Working Professional"
-              }
-            ].map((testimonial, idx) => (
-              <div 
-                key={idx}
-                className={`${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-stone-200'} p-6 rounded-lg border info-card`}
-              >
-                <p className={`${darkMode ? 'text-slate-300' : 'text-stone-600'} text-sm md:text-base leading-relaxed mb-4 italic`}>
-                  "{testimonial.quote}"
-                </p>
-                <div>
-                  <p className={`${darkMode ? 'text-slate-50' : 'text-stone-900'} text-sm md:text-base font-medium`}>
-                    {testimonial.author}
-                  </p>
-                  <p className={`${darkMode ? 'text-slate-400' : 'text-stone-500'} text-xs md:text-sm`}>
-                    {testimonial.role}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="text-center">
+            <div className={`inline-block px-8 py-6 rounded-lg ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-stone-200'} border`}>
+              <p className={`${darkMode ? 'text-slate-300' : 'text-stone-600'} text-sm md:text-base italic`}>
+                We're gathering real feedback from our clients. Check back soon to see what they have to say.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className={`${darkMode ? 'bg-slate-950' : 'bg-gradient-to-r from-stone-900 to-stone-800'} py-16 px-6 text-white`}>
-        <div className="max-w-2xl mx-auto text-center">
-          <h3 className="text-3xl md:text-4xl font-light mb-3">Stay Connected</h3>
-          <div className="zen-line"></div>
-          <p className="text-slate-300 mt-6 mb-8 leading-relaxed text-sm md:text-base">
-            Get insights, reflections, and updates on new resources. No spam, just presence-centered content.
-          </p>
-          
-          <form className="flex flex-col gap-3" onSubmit={(e) => { e.preventDefault(); alert('Thank you! Newsletter signup coming soon.'); }}>
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-yellow-400 transition"
-              required
-            />
-            <button
-              type="submit"
-              className="px-6 py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-slate-950 font-medium rounded-lg hover:from-yellow-500 hover:to-yellow-400 transition"
-            >
-              Subscribe
-            </button>
-          </form>
-          
-          <p className="text-xs text-slate-400 mt-4">
-            We respect your privacy. Unsubscribe anytime.
-          </p>
         </div>
       </section>
 
