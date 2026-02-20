@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, MapPin, Calendar, BookOpen, Video, FileText, ChevronDown, Menu, X, Moon, Sun } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 
 const App = () => {
   const [selectedCounselling, setSelectedCounselling] = useState('online');
@@ -919,6 +921,8 @@ const App = () => {
           </div>
         </div>
       </footer>
+      <SpeedInsights />
+      <Analytics />
     </div>
   );
 };
