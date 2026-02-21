@@ -344,6 +344,51 @@ const App = () => {
           color: #f1f5f9;
         }
         
+        /* DARK MODE RESOURCE CARDS & COMPONENTS */
+        .dark .resource-card {
+          background: #1e293b !important;
+          border-color: #334155 !important;
+        }
+        
+        .dark .resource-card h4 {
+          color: #f1f5f9 !important;
+        }
+        
+        .dark .resource-card p {
+          color: #cbd5e1 !important;
+        }
+        
+        .dark .icon-wrapper {
+          background: #334155 !important;
+          color: #cbd5e1 !important;
+        }
+        
+        .dark .button-secondary {
+          background: transparent !important;
+          color: #cbd5e1 !important;
+          border-color: #475569 !important;
+        }
+        
+        .dark .button-secondary:hover {
+          background: #334155 !important;
+          color: #f1f5f9 !important;
+        }
+        
+        .dark .toggle-active {
+          background: #4c5a6b !important;
+          color: #f1f5f9 !important;
+        }
+        
+        .dark .toggle-inactive {
+          background: #334155 !important;
+          color: #cbd5e1 !important;
+        }
+        
+        .dark .toggle-inactive:hover {
+          background: #475569 !important;
+          color: #f1f5f9 !important;
+        }
+        
         @keyframes slideInDown {
           from {
             opacity: 0;
