@@ -84,16 +84,6 @@ const App = () => {
   // Check if maintenance mode is enabled
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === 'true';
 
-  useEffect(() => {
-    // Load Calendly script if showing
-    if (showCalendly) {
-      const script = document.createElement('script');
-      script.src = 'https://assets.calendly.com/assets/external/widget.js';
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, [showCalendly]);
-
   // Maintenance Mode Page
   if (maintenanceMode) {
     return (
@@ -863,16 +853,36 @@ const App = () => {
             </button>
           </div>
 
-          {/* Calendly Embed */}
+          {/* Cal.com Embed */}
           {showCalendly && (
             <div className="calendly-container">
               {selectedCounselling === 'inperson' ? (
                 <>
-                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/inperson?hide_event_type_details=1&hide_gdpr_banner=1&background_color=c4b5a0&primary_color=f0d8b8&text_color=2d2d2d" style={{minWidth: '320px', height: '700px'}}></div>
+                  <iframe
+                    title="Book In-Person Counselling Session"
+                    src="https://cal.eu/nothingness-wb/in-person?embed=1"
+                    style={{
+                      border: 'none',
+                      width: '100%',
+                      height: '700px',
+                      borderRadius: '8px'
+                    }}
+                    frameBorder="0"
+                  ></iframe>
                 </>
               ) : (
                 <>
-                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/online?hide_event_type_details=1&hide_gdpr_banner=1&background_color=b9a896&primary_color=e8c984&text_color=2d2d2d" style={{minWidth: '320px', height: '700px'}}></div>
+                  <iframe
+                    title="Book Online Counselling Session"
+                    src="https://cal.eu/nothingness-wb/online?embed=1"
+                    style={{
+                      border: 'none',
+                      width: '100%',
+                      height: '700px',
+                      borderRadius: '8px'
+                    }}
+                    frameBorder="0"
+                  ></iframe>
                 </>
               )}
               <p className="text-xs text-stone-500 text-center mt-4">
