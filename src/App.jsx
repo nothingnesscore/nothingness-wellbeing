@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, MapPin, Calendar, BookOpen, Video, FileText, ChevronDown, Menu, X, Moon, Sun } from 'lucide-react';
+import { Mail, MapPin, Calendar, BookOpen, Video, FileText, Menu, X, Moon, Sun } from 'lucide-react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
+import { getCalApi } from "@calcom/embed-react";
 
 const App = () => {
   const [selectedCounselling, setSelectedCounselling] = useState('online');
-  const [showCalendly, setShowCalendly] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const scrollTimeoutRef = React.useRef(null);
@@ -63,6 +63,34 @@ const App = () => {
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [darkModePreference]);
+
+  // Initialize Cal.com embed — re-runs whenever dark mode changes to sync theme
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({ calOrigin: "https://cal.eu" });
+      cal("ui", {
+        theme: darkMode ? "dark" : "light",
+        hideEventTypeDetails: false,
+        layout: "month_view",
+        cssVarsPerTheme: {
+          light: {
+            "cal-brand":           "#a89968",
+            "cal-brand-emphasis":  "#7a6a48",
+            "cal-bg":              "#faf8f3",
+            "cal-text":            "#292524",
+          },
+          dark: {
+            "cal-brand":           "#d4af37",
+            "cal-brand-emphasis":  "#b8942d",
+            "cal-bg":              "#000000",
+            "cal-bg-muted":        "#0a0a0a",
+            "cal-text":            "#f1f5f9",
+            "cal-border":          "#2d2d2d",
+          },
+        },
+      });
+    })();
+  }, [darkMode]);
 
   // Handle scroll for navbar shrink/expand with debounce
   useEffect(() => {
@@ -772,7 +800,6 @@ const App = () => {
             <button
               onClick={() => {
                 setSelectedCounselling('online');
-                setShowCalendly(false);
               }}
               className={`px-4 md:px-6 py-2 rounded-full transition toggle-button text-sm md:text-base ${
                 selectedCounselling === 'online'
@@ -785,7 +812,6 @@ const App = () => {
             <button
               onClick={() => {
                 setSelectedCounselling('inperson');
-                setShowCalendly(false);
               }}
               className={`px-4 md:px-6 py-2 rounded-full transition toggle-button text-sm md:text-base ${
                 selectedCounselling === 'inperson'
@@ -844,59 +870,20 @@ const App = () => {
           <div className="cta-section mb-8">
             <h4 className="text-lg md:text-xl font-light mb-4">Book Your First Session</h4>
             <p className="text-xs text-stone-500 mb-4 italic">💡 <strong>Quick Tip:</strong> Use WhatsApp (+91 82402 13971) for fastest response, or call +91 89024 60513 anytime.</p>
-            <button 
-              onClick={() => setShowCalendly(!showCalendly)}
+            <button
+              data-cal-link={selectedCounselling === 'online' ? 'nothingness-wb/online' : 'nothingness-wb/in-person'}
+              data-cal-origin="https://cal.eu"
+              data-cal-config={JSON.stringify({ layout: "month_view", theme: darkMode ? "dark" : "light" })}
               className="button-primary inline-flex items-center gap-2 text-sm md:text-base"
             >
-              {showCalendly ? 'Hide Calendar' : 'Open Booking Calendar'}
-              <ChevronDown className={`w-4 h-4 transition-transform ${showCalendly ? 'rotate-180' : ''}`} />
+              Open Booking Calendar
             </button>
           </div>
 
-          {/* Cal.com Embed */}
-          {showCalendly && (
-            <div className="calendly-container">
-              {selectedCounselling === 'inperson' ? (
-                <>
-                  <iframe
-                    title="Book In-Person Counselling Session"
-                    src="https://cal.eu/nothingness-wb/in-person?embed=1"
-                    style={{
-                      border: 'none',
-                      width: '100%',
-                      height: '700px',
-                      borderRadius: '8px'
-                    }}
-                    frameBorder="0"
-                  ></iframe>
-                </>
-              ) : (
-                <>
-                  <iframe
-                    title="Book Online Counselling Session"
-                    src="https://cal.eu/nothingness-wb/online?embed=1"
-                    style={{
-                      border: 'none',
-                      width: '100%',
-                      height: '700px',
-                      borderRadius: '8px'
-                    }}
-                    frameBorder="0"
-                  ></iframe>
-                </>
-              )}
-              <p className="text-xs text-stone-500 text-center mt-4">
-                Adjust the calendar if needed. For any questions, email circle5.nothingness@proton.me
-              </p>
-            </div>
-          )}
-
-          {/* Fallback if Calendly not used */}
-          {!showCalendly && (
-            <div className="text-center text-xs md:text-sm text-stone-500 mt-6">
-              Prefer email? Reach out directly to <a href="mailto:circle5.nothingness@proton.me" className="text-stone-700 hover:text-stone-900 underline">circle5.nothingness@proton.me</a>
-            </div>
-          )}
+          {/* Fallback email contact */}
+          <div className="text-center text-xs md:text-sm text-stone-500 mt-6">
+            Prefer email? Reach out directly to <a href="mailto:circle5.nothingness@proton.me" className="text-stone-700 hover:text-stone-900 underline">circle5.nothingness@proton.me</a>
+          </div>
         </section>
 
         <div className="section-divider"></div>
