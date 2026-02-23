@@ -16,19 +16,26 @@ const App = () => {
   });
   
   // Determine actual dark mode based on preference
-  const getDarkModeStatus = () => {
-    if (darkModePreference === 'auto') {
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkModePreference');
+    const pref = saved ? saved : 'auto';
+    if (pref === 'auto') {
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
-    return darkModePreference === 'dark';
-  };
-  
-  const [darkMode, setDarkMode] = useState(getDarkModeStatus());
+    return pref === 'dark';
+  });
 
   // Save dark mode preference to localStorage and update actual dark mode
   useEffect(() => {
     localStorage.setItem('darkModePreference', darkModePreference);
-    const actualDarkMode = getDarkModeStatus();
+    
+    let actualDarkMode;
+    if (darkModePreference === 'auto') {
+      actualDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } else {
+      actualDarkMode = darkModePreference === 'dark';
+    }
+    
     setDarkMode(actualDarkMode);
     
     if (actualDarkMode) {
