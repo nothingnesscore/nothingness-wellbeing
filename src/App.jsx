@@ -9,22 +9,53 @@ const App = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const scrollTimeoutRef = React.useRef(null);
-  const [darkMode, setDarkMode] = useState(() => {
-    // Check localStorage first, then system preference
-    const saved = localStorage.getItem('darkMode');
-    if (saved !== null) return JSON.parse(saved);
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [darkModePreference, setDarkModePreference] = useState(() => {
+    const saved = localStorage.getItem('darkModePreference');
+    if (saved) return saved;
+    return 'auto';
   });
+  
+  // Determine actual dark mode based on preference
+  const getDarkModeStatus = () => {
+    if (darkModePreference === 'auto') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return darkModePreference === 'dark';
+  };
+  
+  const [darkMode, setDarkMode] = useState(getDarkModeStatus());
 
-  // Save dark mode preference to localStorage
+  // Save dark mode preference to localStorage and update actual dark mode
   useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
-    if (darkMode) {
+    localStorage.setItem('darkModePreference', darkModePreference);
+    const actualDarkMode = getDarkModeStatus();
+    setDarkMode(actualDarkMode);
+    
+    if (actualDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, [darkMode]);
+  }, [darkModePreference]);
+  
+  // Listen for system dark mode changes when in auto mode
+  useEffect(() => {
+    if (darkModePreference !== 'auto') return;
+    
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      const actualDarkMode = mediaQuery.matches;
+      setDarkMode(actualDarkMode);
+      if (actualDarkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [darkModePreference]);
 
   // Handle scroll for navbar shrink/expand with debounce
   useEffect(() => {
@@ -105,7 +136,7 @@ const App = () => {
   }
 
   return (
-    <div className={`${darkMode ? 'dark bg-slate-950 text-slate-50' : 'bg-stone-50 text-stone-900'} min-h-screen transition-colors duration-300`}>
+    <div className={`${darkMode ? 'dark bg-black text-slate-50' : 'bg-stone-50 text-stone-900'} min-h-screen transition-colors duration-300`}>
       {/* Custom font styles */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Lora:wght@400;500&display=swap');
@@ -127,19 +158,19 @@ const App = () => {
         }
         
         body.dark {
-          background-color: #0f172a;
+          background-color: #000000;
           color: #f1f5f9;
         }
         
-        /* Dark mode color transitions */
+        /* Dark mode color transitions - AMOLED style */
         .dark {
-          --bg-primary: #0f172a;
-          --bg-secondary: #1e293b;
-          --bg-tertiary: #334155;
+          --bg-primary: #000000;
+          --bg-secondary: #0a0a0a;
+          --bg-tertiary: #1a1a1a;
           --text-primary: #f1f5f9;
           --text-secondary: #cbd5e1;
-          --border-color: #475569;
-          --accent-light: #a89968;
+          --border-color: #2d2d2d;
+          --accent-light: #d4af37;
         }
         
         h1, h2, h3, h4, h5, h6 {
@@ -179,7 +210,7 @@ const App = () => {
         }
         
         .dark .hero-section {
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+          background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
         }
         
         .circle-accent {
@@ -240,7 +271,7 @@ const App = () => {
         }
         
         .dark .hover-lift:hover {
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 12px 24px rgba(255, 255, 255, 0.08);
         }
         
         .section-divider {
@@ -250,7 +281,7 @@ const App = () => {
         }
         
         .dark .section-divider {
-          background: linear-gradient(to right, transparent, #64748b, transparent);
+          background: linear-gradient(to right, transparent, #2d2d2d, transparent);
         }
         
         .calendly-container {
@@ -264,23 +295,23 @@ const App = () => {
         }
         
         .dark .calendly-container {
-          background: #1e293b;
-          border-color: #334155;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+          background: #0a0a0a;
+          border-color: #2d2d2d;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
         }
         
         /* Dark mode for cards and containers */
         .dark .bg-white {
-          background-color: #1e293b;
+          background-color: #0a0a0a;
           color: #f1f5f9;
         }
         
         .dark .bg-stone-100 {
-          background-color: #334155;
+          background-color: #1a1a1a;
         }
         
         .dark .border-stone-200 {
-          border-color: #475569;
+          border-color: #2d2d2d;
         }
         
         .dark .text-stone-600 {
@@ -300,18 +331,18 @@ const App = () => {
         }
         
         .dark footer {
-          background-color: #0f172a;
-          border-top-color: #334155;
+          background-color: #000000;
+          border-top-color: #2d2d2d;
         }
         
         /* Dark mode button styling */
         .dark .button-primary {
-          background: #4c5a6b;
+          background: #2d2d2d;
           color: #f1f5f9;
         }
         
         .dark .button-primary:hover {
-          background: #5a6b7f;
+          background: #3d3d3d;
         }
         
         .dark .button-secondary {
@@ -331,18 +362,18 @@ const App = () => {
         
         /* Dark mode info cards */
         .dark .info-card {
-          background: #1e293b;
-          border-color: #334155;
+          background: #0a0a0a;
+          border-color: #2d2d2d;
         }
         
         .dark .info-card:hover {
-          border-color: #475569;
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+          border-color: #d4af37;
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.8);
         }
         
         /* Dark mode CTA section */
         .dark .cta-section {
-          background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
         }
         
         /* Dark mode section backgrounds */
@@ -383,8 +414,8 @@ const App = () => {
         
         /* DARK MODE RESOURCE CARDS & COMPONENTS */
         .dark .resource-card {
-          background: #1e293b !important;
-          border-color: #334155 !important;
+          background: #0a0a0a !important;
+          border-color: #2d2d2d !important;
         }
         
         .dark .resource-card h4 {
@@ -396,33 +427,33 @@ const App = () => {
         }
         
         .dark .icon-wrapper {
-          background: #334155 !important;
+          background: #1a1a1a !important;
           color: #cbd5e1 !important;
         }
         
         .dark .button-secondary {
           background: transparent !important;
           color: #cbd5e1 !important;
-          border-color: #475569 !important;
+          border-color: #2d2d2d !important;
         }
         
         .dark .button-secondary:hover {
-          background: #334155 !important;
+          background: #1a1a1a !important;
           color: #f1f5f9 !important;
         }
         
         .dark .toggle-active {
-          background: #4c5a6b !important;
+          background: #2d2d2d !important;
           color: #f1f5f9 !important;
         }
         
         .dark .toggle-inactive {
-          background: #334155 !important;
+          background: #1a1a1a !important;
           color: #cbd5e1 !important;
         }
         
         .dark .toggle-inactive:hover {
-          background: #475569 !important;
+          background: #2d2d2d !important;
           color: #f1f5f9 !important;
         }
         
@@ -602,7 +633,7 @@ const App = () => {
       `}</style>
 
       {/* Navigation */}
-      <nav className={`sticky top-0 ${darkMode ? 'bg-slate-900 border-slate-700' : 'bg-stone-50 border-stone-200'} bg-opacity-90 backdrop-blur-md z-50 border-b border-opacity-30 transition-all duration-300 ${scrolled ? 'py-2 shadow-lg' : 'py-4 shadow-none'}`}>
+      <nav className={`sticky top-0 ${darkMode ? 'bg-black border-gray-900' : 'bg-stone-50 border-stone-200'} bg-opacity-90 backdrop-blur-md z-50 border-b border-opacity-30 transition-all duration-300 ${scrolled ? 'py-2 shadow-lg' : 'py-4 shadow-none'}`}>
         <div className="max-w-5xl mx-auto px-6 flex justify-between items-center">
           <a href="/" className={`flex items-center gap-3 hover:opacity-80 transition ${scrolled ? 'scale-90' : 'scale-100'}`}>
             <img src="/logo.png" alt="Nothingness Well-Being" className={`rounded-full object-cover transition-all duration-300 ${scrolled ? 'w-8 h-8 md:w-9 md:h-9' : 'w-10 h-10 md:w-12 md:h-12'}`} />
@@ -615,24 +646,58 @@ const App = () => {
               <a href="#tutoring" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'} transition`}>Psychology Tutoring</a>
               <a href="#resources" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'} transition`}>Resources</a>
             </div>
-            <button 
-              onClick={() => setDarkMode(!darkMode)}
-              className={`p-2 rounded-lg transition ${darkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-stone-100 text-slate-700 hover:bg-stone-200'}`}
-              title="Toggle dark mode"
-            >
-              {darkMode ? <Sun className={`transition-all duration-300 ${scrolled ? 'w-4 h-4' : 'w-5 h-5'}`} /> : <Moon className={`transition-all duration-300 ${scrolled ? 'w-4 h-4' : 'w-5 h-5'}`} />}
-            </button>
+            
+            {/* Theme Mode Selector */}
+            <div className={`flex gap-1 p-1 rounded-lg transition ${darkMode ? 'bg-gray-900' : 'bg-stone-100'}`}>
+              <button 
+                onClick={() => setDarkModePreference('light')}
+                className={`p-1.5 rounded transition ${darkModePreference === 'light' ? (darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-white text-slate-700') : 'text-gray-500'}`}
+                title="Light mode"
+              >
+                <Sun className={`transition-all duration-300 ${scrolled ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+              </button>
+              <button 
+                onClick={() => setDarkModePreference('dark')}
+                className={`p-1.5 rounded transition ${darkModePreference === 'dark' ? (darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-white text-slate-700') : 'text-gray-500'}`}
+                title="Dark mode"
+              >
+                <Moon className={`transition-all duration-300 ${scrolled ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+              </button>
+              <button 
+                onClick={() => setDarkModePreference('auto')}
+                className={`p-1.5 rounded transition flex items-center gap-1 text-xs ${darkModePreference === 'auto' ? (darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-white text-slate-700') : 'text-gray-500'}`}
+                title="Auto mode (system preference)"
+              >
+                Auto
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu Button + Dark Mode Toggle */}
           <div className="md:hidden flex gap-2 items-center">
-            <button 
-              onClick={() => setDarkMode(!darkMode)}
-              className={`p-2 rounded-lg transition ${darkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-stone-100 text-slate-700 hover:bg-stone-200'}`}
-              title="Toggle dark mode"
-            >
-              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+            <div className={`flex gap-1 p-1 rounded-lg transition ${darkMode ? 'bg-gray-900' : 'bg-stone-100'}`}>
+              <button 
+                onClick={() => setDarkModePreference('light')}
+                className={`p-1 rounded transition ${darkModePreference === 'light' ? (darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-white text-slate-700') : 'text-gray-500'}`}
+                title="Light mode"
+              >
+                <Sun className="w-4 h-4" />
+              </button>
+              <button 
+                onClick={() => setDarkModePreference('dark')}
+                className={`p-1 rounded transition ${darkModePreference === 'dark' ? (darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-white text-slate-700') : 'text-gray-500'}`}
+                title="Dark mode"
+              >
+                <Moon className="w-4 h-4" />
+              </button>
+              <button 
+                onClick={() => setDarkModePreference('auto')}
+                className={`p-1 rounded transition text-xs ${darkModePreference === 'auto' ? (darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-white text-slate-700') : 'text-gray-500'}`}
+                title="Auto mode"
+              >
+                A
+              </button>
+            </div>
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`p-2 rounded-lg transition ${darkMode ? 'hover:bg-slate-800' : 'hover:bg-stone-100'}`}
@@ -796,11 +861,11 @@ const App = () => {
             <div className="calendly-container">
               {selectedCounselling === 'inperson' ? (
                 <>
-                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/inperson?hide_event_type_details=1&hide_gdpr_banner=1&background_color=e8ddd0&primary_color=a89968" style={{minWidth: '320px', height: '700px'}}></div>
+                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/inperson?hide_event_type_details=1&hide_gdpr_banner=1&background_color=c4b5a0&primary_color=f0d8b8&text_color=2d2d2d" style={{minWidth: '320px', height: '700px'}}></div>
                 </>
               ) : (
                 <>
-                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/online?hide_event_type_details=1&hide_gdpr_banner=1&background_color=f0e8e0&primary_color=d4af37" style={{minWidth: '320px', height: '700px'}}></div>
+                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/online?hide_event_type_details=1&hide_gdpr_banner=1&background_color=b9a896&primary_color=e8c984&text_color=2d2d2d" style={{minWidth: '320px', height: '700px'}}></div>
                 </>
               )}
               <p className="text-xs text-stone-500 text-center mt-4">
@@ -924,7 +989,7 @@ const App = () => {
       </div>
 
       {/* Testimonials Section */}
-      <section className={`${darkMode ? 'bg-slate-900' : 'bg-stone-100 bg-opacity-50'} py-16 px-6`}>
+      <section className={`${darkMode ? 'bg-gray-950' : 'bg-stone-100 bg-opacity-50'} py-16 px-6`}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h3 className={`text-3xl md:text-4xl font-light mb-3 ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>What Others Say</h3>
@@ -935,7 +1000,7 @@ const App = () => {
           </div>
 
           <div className="text-center">
-            <div className={`inline-block px-8 py-6 rounded-lg ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-stone-200'} border`}>
+            <div className={`inline-block px-8 py-6 rounded-lg ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-stone-200'} border`}>
               <p className={`${darkMode ? 'text-slate-300' : 'text-stone-600'} text-sm md:text-base italic`}>
                 We're gathering real feedback from our clients. Check back soon to see what they have to say.
               </p>
