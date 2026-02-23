@@ -344,6 +344,20 @@ const App = () => {
           color: #f1f5f9;
         }
         
+        /* Dark mode intro description fix */
+        .dark .hero-section p {
+          color: #cbd5e1 !important;
+        }
+        
+        /* Dark mode email section fix */
+        .dark .text-stone-500 {
+          color: #cbd5e1 !important;
+        }
+        
+        .dark .text-stone-700 {
+          color: #e2e8f0 !important;
+        }
+        
         /* DARK MODE RESOURCE CARDS & COMPONENTS */
         .dark .resource-card {
           background: #1e293b !important;
@@ -569,7 +583,6 @@ const App = () => {
         <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
           <a href="/" className="flex items-center gap-3 hover:opacity-80 transition">
             <img src="/logo.png" alt="Nothingness Well-Being" className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover" />
-            <h1 className={`text-xl md:text-2xl font-light tracking-wide ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>Nothingness</h1>
           </a>
           
           {/* Desktop Navigation + Dark Mode Toggle */}
@@ -651,8 +664,7 @@ const App = () => {
           </h2>
           <div className="zen-line fade-in stagger-2"></div>
           <p className="text-base md:text-lg text-stone-700 mt-8 leading-relaxed max-w-xl mx-auto font-light fade-in stagger-3">
-            Counselling and psychology tutoring rooted in person-centred presence. 
-            A space where the self dissolves into clarity, healing, and understanding.
+            Non-clinical counselling and psychology tutoring based on being present with the person. A place where the self dissolves down into clarity, healing, and understanding.
           </p>
         </div>
       </section>
@@ -666,8 +678,7 @@ const App = () => {
             <h3 className="text-3xl md:text-4xl font-light mb-3">Counselling</h3>
             <div className="zen-line"></div>
             <p className="text-stone-600 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
-              Person-centred counselling that honours your experience without judgment. 
-              Online or in-person sessions tailored to your needs. Meet yourself with kindness.
+              Non-clinical counselling that focuses on the person and respects your experience without judging you. Sessions that are tailored to your needs, either online or in person. Meet yourself with kindness.
             </p>
           </div>
 
@@ -760,22 +771,15 @@ const App = () => {
           {/* Calendly Embed */}
           {showCalendly && (
             <div className="calendly-container">
-              <div style={{ position: 'relative', paddingBottom: '100%', height: 0, overflow: 'hidden' }}>
-                <iframe
-                  title="Book a Counselling Session"
-                  src={`https://calendly.com/circle5-nothingness/${selectedCounselling === 'online' ? 'online' : 'inperson'}?hide_event_type_details=1&hide_gdpr_banner=1`}
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    border: 'none'
-                  }}
-                  frameBorder="0"
-                  scrolling="no"
-                ></iframe>
-              </div>
+              {selectedCounselling === 'inperson' ? (
+                <>
+                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/inperson?hide_event_type_details=1&hide_gdpr_banner=1&background_color=334155&primary_color=d4af37" style={{minWidth: '320px', height: '700px'}}></div>
+                </>
+              ) : (
+                <>
+                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/online?hide_event_type_details=1&hide_gdpr_banner=1&background_color=475569&primary_color=a89968" style={{minWidth: '320px', height: '700px'}}></div>
+                </>
+              )}
               <p className="text-xs text-stone-500 text-center mt-4">
                 Adjust the calendar if needed. For any questions, email circle5.nothingness@proton.me
               </p>
@@ -798,8 +802,8 @@ const App = () => {
             <h3 className="text-3xl md:text-4xl font-light mb-3">Psychology Tutoring</h3>
             <div className="zen-line"></div>
             <p className="text-stone-600 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
-              Personalized tutoring in psychology for <strong>Class XI onwards</strong>—high school, undergraduate, postgraduate, and beyond. 
-              Building understanding from the ground up, without pretence. Learning as dialogue, not transmission.
+              Non-clinical psychology tutoring for <strong>Class XI onwards</strong>—high school, undergraduate, postgraduate, and beyond. 
+              Building understanding from the ground up. Learning as dialogue.
             </p>
           </div>
 
@@ -924,7 +928,7 @@ const App = () => {
             <div>
               <h4 className="font-light text-base md:text-lg mb-4">Nothingness Well-Being</h4>
               <p className="text-stone-300 text-xs md:text-sm leading-relaxed">
-                Person-centred counselling and psychology tutoring. A practice rooted in presence, clarity, and authentic connection.
+                Non-clinical counselling and psychology tutoring that focuses on the person. A practice based on being present, being clear, and making authentic connections.
               </p>
             </div>
             <div>
