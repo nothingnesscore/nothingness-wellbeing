@@ -7,6 +7,7 @@ const App = () => {
   const [selectedCounselling, setSelectedCounselling] = useState('online');
   const [showCalendly, setShowCalendly] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     // Check localStorage first, then system preference
     const saved = localStorage.getItem('darkMode');
@@ -23,6 +24,15 @@ const App = () => {
       document.documentElement.classList.remove('dark');
     }
   }, [darkMode]);
+
+  // Handle scroll for navbar shrink/expand
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Check if maintenance mode is enabled
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === 'true';
@@ -579,15 +589,15 @@ const App = () => {
       `}</style>
 
       {/* Navigation */}
-      <nav className={`sticky top-0 ${darkMode ? 'bg-slate-900 border-slate-700' : 'bg-stone-50 border-stone-200'} bg-opacity-95 backdrop-blur-sm z-50 border-b border-opacity-30 transition-colors duration-300`}>
-        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="/" className="flex items-center gap-3 hover:opacity-80 transition">
-            <img src="/logo.png" alt="Nothingness Well-Being" className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover" />
+      <nav className={`sticky top-0 ${darkMode ? 'bg-slate-900 border-slate-700' : 'bg-stone-50 border-stone-200'} bg-opacity-90 backdrop-blur-md z-50 border-b border-opacity-30 transition-all duration-300 ${scrolled ? 'py-2 shadow-lg' : 'py-4 shadow-none'}`}>
+        <div className="max-w-5xl mx-auto px-6 flex justify-between items-center">
+          <a href="/" className={`flex items-center gap-3 hover:opacity-80 transition ${scrolled ? 'scale-90' : 'scale-100'}`}>
+            <img src="/logo.png" alt="Nothingness Well-Being" className={`rounded-full object-cover transition-all duration-300 ${scrolled ? 'w-8 h-8 md:w-9 md:h-9' : 'w-10 h-10 md:w-12 md:h-12'}`} />
           </a>
           
           {/* Desktop Navigation + Dark Mode Toggle */}
           <div className="hidden md:flex gap-6 items-center">
-            <div className="flex gap-8 text-sm">
+            <div className={`flex gap-8 transition-all duration-300 ${scrolled ? 'text-xs' : 'text-sm'}`}>
               <a href="#counselling" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'} transition`}>Counselling</a>
               <a href="#tutoring" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'} transition`}>Psychology Tutoring</a>
               <a href="#resources" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'} transition`}>Resources</a>
@@ -597,7 +607,7 @@ const App = () => {
               className={`p-2 rounded-lg transition ${darkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-stone-100 text-slate-700 hover:bg-stone-200'}`}
               title="Toggle dark mode"
             >
-              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {darkMode ? <Sun className={`transition-all duration-300 ${scrolled ? 'w-4 h-4' : 'w-5 h-5'}`} /> : <Moon className={`transition-all duration-300 ${scrolled ? 'w-4 h-4' : 'w-5 h-5'}`} />}
             </button>
           </div>
 
@@ -773,11 +783,11 @@ const App = () => {
             <div className="calendly-container">
               {selectedCounselling === 'inperson' ? (
                 <>
-                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/inperson?hide_event_type_details=1&hide_gdpr_banner=1&background_color=334155&primary_color=d4af37" style={{minWidth: '320px', height: '700px'}}></div>
+                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/inperson?hide_event_type_details=1&hide_gdpr_banner=1&background_color=e8ddd0&primary_color=a89968" style={{minWidth: '320px', height: '700px'}}></div>
                 </>
               ) : (
                 <>
-                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/online?hide_event_type_details=1&hide_gdpr_banner=1&background_color=475569&primary_color=a89968" style={{minWidth: '320px', height: '700px'}}></div>
+                  <div className="calendly-inline-widget" data-url="https://calendly.com/circle5-nothingness/online?hide_event_type_details=1&hide_gdpr_banner=1&background_color=f0e8e0&primary_color=d4af37" style={{minWidth: '320px', height: '700px'}}></div>
                 </>
               )}
               <p className="text-xs text-stone-500 text-center mt-4">
