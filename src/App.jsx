@@ -8,6 +8,7 @@ const App = () => {
   const [showCalendly, setShowCalendly] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const scrollTimeoutRef = React.useRef(null);
   const [darkMode, setDarkMode] = useState(() => {
     // Check localStorage first, then system preference
     const saved = localStorage.getItem('darkMode');
@@ -25,13 +26,21 @@ const App = () => {
     }
   }, [darkMode]);
 
-  // Handle scroll for navbar shrink/expand
+  // Handle scroll for navbar shrink/expand with debounce
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        setScrolled(window.scrollY > 100);
+      }, 50);
     };
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
   }, []);
 
   // Check if maintenance mode is enabled
@@ -105,6 +114,10 @@ const App = () => {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
+        }
+        
+        html {
+          scroll-behavior: smooth;
         }
         
         body {
