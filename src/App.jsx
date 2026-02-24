@@ -67,7 +67,7 @@ const App = () => {
   // Initialize Cal.com embed — re-runs whenever dark mode changes to sync theme
   useEffect(() => {
     (async function () {
-      const cal = await getCalApi({ calOrigin: "https://cal.eu" });
+      const cal = await getCalApi({ calOrigin: "https://cal.com" });
       cal("ui", {
         theme: darkMode ? "dark" : "light",
         hideEventTypeDetails: false,
@@ -872,7 +872,7 @@ const App = () => {
             <p className="text-xs text-stone-500 mb-4 italic">💡 <strong>Quick Tip:</strong> Use WhatsApp (+91 82402 13971) for fastest response, or call +91 89024 60513 anytime.</p>
             <button
               data-cal-link={selectedCounselling === 'online' ? 'nothingness-wb/online' : 'nothingness-wb/in-person'}
-              data-cal-origin="https://cal.eu"
+              data-cal-origin="https://cal.com"
               data-cal-config={JSON.stringify({ layout: "month_view", theme: darkMode ? "dark" : "light" })}
               className="button-primary inline-flex items-center gap-2 text-sm md:text-base"
             >
