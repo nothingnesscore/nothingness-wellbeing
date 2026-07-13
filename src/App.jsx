@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, MapPin, Calendar, BookOpen, Video, FileText, Menu, X, Moon, Sun } from 'lucide-react';
+import { Mail, MapPin, Calendar, BookOpen, Video, FileText, Menu, X, Moon, Sun, ChevronDown } from 'lucide-react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import { getCalApi } from "@calcom/embed-react";
@@ -10,6 +10,57 @@ const App = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isBursting, setIsBursting] = useState(false);
+
+  const [expandedFaq, setExpandedFaq] = useState(null);
+
+  const toggleFaq = (index) => {
+    setExpandedFaq(expandedFaq === index ? null : index);
+  };
+
+  const faqData = [
+    {
+      question: "What is non-clinical counselling?",
+      answer: "Non-clinical counselling focuses on personal growth, self-understanding, and navigating life's challenges without relying on medical diagnoses or clinical frameworks. It is a person-centred approach where we explore your experiences in a safe, non-judgmental space. Please note that it is not a substitute for psychiatric treatment or crisis intervention."
+    },
+    {
+      question: "How do the psychology tutoring sessions work?",
+      answer: "Tutoring sessions are designed around your specific curriculum and learning goals, whether you are in Class XI/XII, an undergraduate, or a postgraduate student. We move beyond rote learning, focusing on deep conceptual clarity and critical thinking through dialogue and practice."
+    },
+    {
+      question: "Are sessions held online or in person?",
+      answer: "Both options are available. Online sessions are conducted via video call, offering flexibility to suit your schedule. In-person sessions take place at our calm, welcoming space in Kalighat, Kolkata."
+    },
+    {
+      question: "What are your fees?",
+      answer: "Pricing is personalised and tailored to your circumstances, reflecting our commitment to accessible support. There is no one-size-fits-all approach. Please reach out to discuss what feels right and feasible for you."
+    },
+    {
+      question: "How long is a typical session?",
+      answer: "A standard counselling or tutoring session lasts for 50 to 60 minutes. We can adjust the frequency and duration based on your evolving needs and learning pace."
+    }
+  ];
+
+  // Scroll Reveal Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    const elements = document.querySelectorAll('.reveal-on-scroll');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+      observer.disconnect();
+    };
+  }, []);
   
   // Reintegrate cloud when window regains focus (e.g. returning from WhatsApp)
   useEffect(() => {
@@ -628,14 +679,40 @@ const App = () => {
         .glass-card:hover {
           background: rgba(255, 255, 255, 0.8);
           border: 1px solid rgba(0, 0, 0, 0.1);
-          transform: translateY(-4px) translateZ(0);
-          box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.1);
+          transform: translateY(-4px) scale(1.01) translateZ(0);
+          box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.12);
         }
 
         .dark .glass-card:hover {
           background: rgba(255, 255, 255, 0.06);
           border: 1px solid rgba(255, 255, 255, 0.15);
-          box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+          box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal-on-scroll {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+          will-change: opacity, transform;
+        }
+        
+        .reveal-on-scroll.is-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        /* FAQ Accordion Transitions */
+        .faq-answer {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: grid-template-rows 300ms ease-in-out;
+        }
+        .faq-answer.open {
+          grid-template-rows: 1fr;
+        }
+        .faq-answer-inner {
+          overflow: hidden;
         }
 
         /* 3. Liquid Floating Navbar */
@@ -846,7 +923,7 @@ const App = () => {
       <div className="max-w-5xl mx-auto px-6 py-20">
 
         {/* COUNSELLING SECTION */}
-        <section id="counselling" className="mb-20">
+        <section id="counselling" className="mb-20 reveal-on-scroll">
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Counselling</h3>
             <div className="zen-line"></div>
@@ -957,7 +1034,7 @@ const App = () => {
         <div className="section-divider"></div>
 
         {/* TUTORING SECTION */}
-        <section id="tutoring" className="mb-20">
+        <section id="tutoring" className="mb-20 reveal-on-scroll">
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Psychology Tutoring</h3>
             <div className="zen-line"></div>
@@ -1013,7 +1090,7 @@ const App = () => {
         <div className="section-divider"></div>
 
         {/* RESOURCES SECTION */}
-        <section id="resources" className="mb-20">
+        <section id="resources" className="mb-20 reveal-on-scroll">
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Resources & Learning</h3>
             <div className="zen-line"></div>
@@ -1058,10 +1135,50 @@ const App = () => {
             </div>
           </div>
         </section>
+
+        <div className="section-divider"></div>
+
+        {/* FAQ SECTION */}
+        <section id="faq" className="mb-20 reveal-on-scroll">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-light mb-3">Frequently Asked Questions</h3>
+            <div className="zen-line"></div>
+            <p className="text-stone-600 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+              Answers to some common questions about our practice.
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto space-y-4">
+            {faqData.map((item, index) => (
+              <div 
+                key={index} 
+                className="glass-card rounded-2xl overflow-hidden cursor-pointer"
+                onClick={() => toggleFaq(index)}
+              >
+                <div className="p-5 md:p-6 flex justify-between items-center gap-4">
+                  <h4 className={`text-base md:text-lg font-medium ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>{item.question}</h4>
+                  <div className={`transition-transform duration-300 flex-shrink-0 ${expandedFaq === index ? 'rotate-180' : ''}`}>
+                    <ChevronDown className={`w-5 h-5 ${darkMode ? 'text-slate-400' : 'text-stone-500'}`} />
+                  </div>
+                </div>
+                <div className={`faq-answer ${expandedFaq === index ? 'open' : ''}`}>
+                  <div className="faq-answer-inner">
+                    <div className="px-5 md:px-6 pb-6 pt-0">
+                      <div className="w-full h-px bg-stone-200 dark:bg-white/10 mb-4"></div>
+                      <p className={`text-sm md:text-base leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
+                        {item.answer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
 
       {/* Testimonials Section */}
-      <section className="py-16 px-6 relative z-10">
+      <section className="py-16 px-6 relative z-10 reveal-on-scroll">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h3 className={`text-3xl md:text-4xl font-light mb-3 ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>What Others Say</h3>
