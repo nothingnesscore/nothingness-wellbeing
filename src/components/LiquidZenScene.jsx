@@ -67,15 +67,17 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
     }
 
     if (pointsRef.current) {
-      // Slow global rotation of the entire cloud
-      pointsRef.current.rotation.y = time * 0.1;
-      pointsRef.current.rotation.x = time * 0.05;
-      
-      // Follow mouse globally with subtle parallax
-      const targetX = state.pointer.x * 3;
-      const targetY = state.pointer.y * 3;
-      pointsRef.current.position.x = THREE.MathUtils.lerp(pointsRef.current.position.x, targetX, 0.03);
-      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, targetY, 0.03);
+      // Fluid, wave-like follow (reduced multiplier for subtlety, smoother lerp)
+      const targetX = state.pointer.x * 1.2;
+      const targetY = state.pointer.y * 1.2;
+      pointsRef.current.position.x = THREE.MathUtils.lerp(pointsRef.current.position.x, targetX, 0.015);
+      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, targetY, 0.015);
+
+      // Subtle wave-like tilt (rotation) based on mouse position
+      const targetRotX = state.pointer.y * 0.3;
+      const targetRotY = state.pointer.x * 0.3;
+      pointsRef.current.rotation.x = THREE.MathUtils.lerp(pointsRef.current.rotation.x, targetRotX + time * 0.03, 0.02);
+      pointsRef.current.rotation.y = THREE.MathUtils.lerp(pointsRef.current.rotation.y, targetRotY + time * 0.06, 0.02);
 
       // Disintegration / Reintegration particle logic
       const positionsAttr = pointsRef.current.geometry.attributes.position;
@@ -89,10 +91,10 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
            positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], randomDirections[i3 + 1], speeds[i] * 2);
            positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], randomDirections[i3 + 2], speeds[i] * 2);
         } else {
-           // Reintegrate: gently pull back to the origin, adding a slight breathing sine wave
-           const floatX = Math.sin(time * 2 + i) * 0.02;
-           const floatY = Math.cos(time * 2 + i) * 0.02;
-           const floatZ = Math.sin(time * 1.5 + i) * 0.02;
+           // Reintegrate: gentle, liquid-like breathing sine waves
+           const floatX = Math.sin(time * 1.5 + i * 0.1) * 0.03;
+           const floatY = Math.cos(time * 1.8 + i * 0.1) * 0.03;
+           const floatZ = Math.sin(time * 1.2 + i * 0.1) * 0.03;
            
            positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], originalPositions[i3] + floatX, speeds[i]);
            positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + floatY, speeds[i]);
@@ -119,7 +121,7 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
         transparent={true}
         opacity={darkMode ? 0.6 : 0.6}
         sizeAttenuation={true}
-        blending={darkMode ? THREE.AdditiveBlending : THREE.NormalBlending}
+        blending={THREE.NormalBlending}
         depthWrite={false}
       />
     </points>
