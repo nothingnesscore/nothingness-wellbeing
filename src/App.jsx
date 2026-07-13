@@ -3,6 +3,7 @@ import { Mail, MapPin, Calendar, BookOpen, Video, FileText, Menu, X, Moon, Sun }
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import { getCalApi } from "@calcom/embed-react";
+import LiquidZenScene from './components/LiquidZenScene';
 
 const App = () => {
   const [selectedCounselling, setSelectedCounselling] = useState('online');
@@ -64,43 +65,6 @@ const App = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [darkModePreference]);
 
-  const heroRef = React.useRef(null);
-  const blobRef = React.useRef(null);
-
-  // Mouse tracking for liquid blob animation in Hero
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (blobRef.current && heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        blobRef.current.animate({
-          left: `${x}px`,
-          top: `${y}px`
-        }, { duration: 3000, fill: "forwards", easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" });
-      }
-    };
-    
-    const handleMouseLeave = () => {
-      if (blobRef.current) {
-        blobRef.current.animate({
-          left: '50%',
-          top: '50%'
-        }, { duration: 4000, fill: "forwards", easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" });
-      }
-    };
-    
-    const heroNode = heroRef.current;
-    if (heroNode) {
-      heroNode.addEventListener('mousemove', handleMouseMove);
-      heroNode.addEventListener('mouseleave', handleMouseLeave);
-      return () => {
-        heroNode.removeEventListener('mousemove', handleMouseMove);
-        heroNode.removeEventListener('mouseleave', handleMouseLeave);
-      };
-    }
-  }, []);
 
   // Initialize Cal.com embed — re-runs whenever dark mode changes to sync theme
   useEffect(() => {
@@ -262,64 +226,6 @@ const App = () => {
           margin-right: auto;
         }
         
-        .circle-accent {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(60px);
-          opacity: 0.4;
-          z-index: 0;
-          will-change: transform;
-        }
-        
-        .dark .circle-accent {
-          opacity: 0.15;
-        }
-        
-        .circle-1 {
-          width: 500px;
-          height: 500px;
-          background: #a89968;
-          top: -100px;
-          right: -100px;
-          animation: floatSlowly 8s ease-in-out infinite alternate;
-        }
-        
-        .circle-2 {
-          width: 400px;
-          height: 400px;
-          background: #e2e8f0;
-          bottom: -150px;
-          left: -100px;
-          animation: floatSlowly 12s ease-in-out infinite alternate-reverse;
-        }
-        
-        .dark .circle-2 {
-          background: #334155;
-        }
-        
-        .pointer-blob {
-          position: absolute;
-          width: 400px;
-          height: 400px;
-          background: radial-gradient(circle, rgba(168, 153, 104, 0.4) 0%, transparent 70%);
-          border-radius: 50%;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          pointer-events: none;
-          z-index: 0;
-          filter: blur(50px);
-          will-change: transform, left, top;
-        }
-        
-        .dark .pointer-blob {
-          background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
-        }
-        
-        @keyframes floatSlowly {
-          0% { transform: translate(0, 0) scale(1); }
-          100% { transform: translate(30px, -30px) scale(1.1); }
-        }
         
         .fade-in {
           animation: fadeInUp 0.8s ease-out;
@@ -978,12 +884,10 @@ const App = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="hero-section" ref={heroRef}>
-        <div className="circle-accent circle-1"></div>
-        <div className="circle-accent circle-2"></div>
-        <div className="pointer-blob" ref={blobRef}></div>
+      <section className="hero-section relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+        <LiquidZenScene darkMode={darkMode} />
         
-        <div className="max-w-2xl mx-auto px-6 text-center relative z-10">
+        <div className="max-w-2xl mx-auto px-6 text-center relative z-10 pointer-events-none">
           <h2 className={`text-4xl md:text-6xl font-light mb-4 tracking-tight fade-in stagger-1 ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>
             Nothingness<br />Well-Being
           </h2>
