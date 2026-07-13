@@ -1,70 +1,132 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { MeshDistortMaterial, Sphere, Float } from '@react-three/drei';
 import * as THREE from 'three';
 
-const MorphingCloud = ({ darkMode, isBursting }) => {
-  const meshRef = useRef();
+const ParticleCloud = ({ darkMode, isBursting }) => {
+  const pointsRef = useRef();
   const materialRef = useRef();
+  
+  const count = 4000;
+  
+  // Pre-calculate particle positions and target scatter directions
+  const [positions, originalPositions, randomDirections, speeds] = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    const orig = new Float32Array(count * 3);
+    const dirs = new Float32Array(count * 3);
+    const speeds = new Float32Array(count);
+    
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      
+      // Spherical distribution, clustered towards the center
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos((Math.random() * 2) - 1);
+      // radius factor to cluster closer to center (smaller cloud overall)
+      const r = 0.5 * Math.pow(Math.random(), 1.5); 
+      
+      const x = r * Math.sin(phi) * Math.cos(theta);
+      const y = r * Math.sin(phi) * Math.sin(theta);
+      const z = r * Math.cos(phi);
+      
+      pos[i3] = x;
+      pos[i3 + 1] = y;
+      pos[i3 + 2] = z;
+      
+      orig[i3] = x;
+      orig[i3 + 1] = y;
+      orig[i3 + 2] = z;
+      
+      // Random direction for bursting/scattering
+      // We push them very far out in random directions
+      const scatterDist = Math.random() * 20 + 5;
+      dirs[i3] = x * scatterDist + (Math.random() - 0.5) * 5;
+      dirs[i3 + 1] = y * scatterDist + (Math.random() - 0.5) * 5;
+      dirs[i3 + 2] = z * scatterDist + (Math.random() - 0.5) * 5;
+      
+      // Individual particle speed variance for organic feeling
+      speeds[i] = Math.random() * 0.05 + 0.01;
+    }
+    return [pos, orig, dirs, speeds];
+  }, [count]);
 
   useFrame((state) => {
-    if (!meshRef.current || !materialRef.current) return;
-    
-    // Smoothly follow the mouse with the sphere's position
-    const targetX = state.pointer.x * 5;
-    const targetY = state.pointer.y * 5;
-    
-    meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, 0.03);
-    meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, targetY, 0.03);
-    
-    // Bursting animation scale and distortion
-    const targetScale = isBursting ? 15 : 2;
-    const currentScale = meshRef.current.scale.x;
-    const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.04);
-    meshRef.current.scale.set(newScale, newScale, newScale);
-    
-    // Bursting increases distortion
-    materialRef.current.distort = THREE.MathUtils.lerp(materialRef.current.distort, isBursting ? 1.5 : 0.8, 0.05);
-    materialRef.current.speed = THREE.MathUtils.lerp(materialRef.current.speed, isBursting ? 4 : 1.5, 0.05);
-
-    // Color shifting animation (breathing thoughts/emotions)
     const time = state.clock.getElapsedTime();
-    const hueShift = Math.sin(time * 0.3) * 0.05; // Gentle hue breathing
     
-    if (darkMode) {
-      // Base: Golden / Amber / Muted Slate
-      const baseColor = new THREE.Color('#d4af37');
-      baseColor.offsetHSL(hueShift, 0, 0);
-      materialRef.current.color.lerp(baseColor, 0.05);
-    } else {
-      // Base: Earthy Sand / Warm Grey
-      const baseColor = new THREE.Color('#a89968');
-      baseColor.offsetHSL(hueShift, 0, 0);
-      materialRef.current.color.lerp(baseColor, 0.05);
+    // Smoothly shift colors through muted, ethereal hues
+    if (materialRef.current) {
+      // Very slow hue shift
+      const hue = (time * 0.03) % 1; 
+      
+      if (darkMode) {
+         // Amber / Gold / Warm glowing base
+         materialRef.current.color.setHSL(hue, 0.4, 0.5);
+      } else {
+         // Muted, sandy / warm grey base
+         materialRef.current.color.setHSL(hue, 0.3, 0.4);
+      }
+    }
+
+    if (pointsRef.current) {
+      // Slow global rotation of the entire cloud
+      pointsRef.current.rotation.y = time * 0.1;
+      pointsRef.current.rotation.x = time * 0.05;
+      
+      // Follow mouse globally with subtle parallax
+      const targetX = state.pointer.x * 3;
+      const targetY = state.pointer.y * 3;
+      pointsRef.current.position.x = THREE.MathUtils.lerp(pointsRef.current.position.x, targetX, 0.03);
+      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, targetY, 0.03);
+
+      // Disintegration / Reintegration particle logic
+      const positionsAttr = pointsRef.current.geometry.attributes.position;
+      
+      for (let i = 0; i < count; i++) {
+        const i3 = i * 3;
+        
+        if (isBursting) {
+           // Disintegrate: violently scatter particles toward random targets
+           positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], randomDirections[i3], speeds[i] * 2);
+           positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], randomDirections[i3 + 1], speeds[i] * 2);
+           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], randomDirections[i3 + 2], speeds[i] * 2);
+        } else {
+           // Reintegrate: gently pull back to the origin, adding a slight breathing sine wave
+           const floatX = Math.sin(time * 2 + i) * 0.02;
+           const floatY = Math.cos(time * 2 + i) * 0.02;
+           const floatZ = Math.sin(time * 1.5 + i) * 0.02;
+           
+           positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], originalPositions[i3] + floatX, speeds[i]);
+           positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + floatY, speeds[i]);
+           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], originalPositions[i3 + 2] + floatZ, speeds[i]);
+        }
+      }
+      positionsAttr.needsUpdate = true;
     }
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <Sphere ref={meshRef} args={[1.5, 64, 64]}>
-        <MeshDistortMaterial
-          ref={materialRef}
-          roughness={1}
-          metalness={0}
-          emissive={darkMode ? "#332211" : "#554422"}
-          emissiveIntensity={0.1}
-          distort={0.8}
-          speed={1.5}
-          transparent={true}
-          opacity={darkMode ? 0.25 : 0.15}
-          color={darkMode ? "#d4af37" : "#a89968"}
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={count}
+          array={positions}
+          itemSize={3}
         />
-      </Sphere>
-    </Float>
+      </bufferGeometry>
+      <pointsMaterial
+        ref={materialRef}
+        size={0.04}
+        transparent={true}
+        opacity={darkMode ? 0.6 : 0.4}
+        sizeAttenuation={true}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </points>
   );
 };
 
-// Component to inject window mouse coordinates into R3F state
+// Component to inject window mouse coordinates into R3F state globally
 const GlobalMouseTracker = () => {
   const { set } = useThree();
   
@@ -85,12 +147,9 @@ const GlobalMouseTracker = () => {
 const LiquidZenScene = ({ darkMode, isBursting }) => {
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1, pointerEvents: 'none' }}>
-      <Canvas camera={{ position: [0, 0, 10], fov: 45 }} dpr={[1, 2]} style={{ pointerEvents: 'none' }}>
-        <ambientLight intensity={darkMode ? 0.3 : 1} />
-        <directionalLight position={[10, 10, 5]} intensity={darkMode ? 1 : 2} color={darkMode ? "#ffddaa" : "#ffffff"} />
-        
+      <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={[1, 2]} style={{ pointerEvents: 'none' }}>
         <GlobalMouseTracker />
-        <MorphingCloud darkMode={darkMode} isBursting={isBursting} />
+        <ParticleCloud darkMode={darkMode} isBursting={isBursting} />
       </Canvas>
     </div>
   );
