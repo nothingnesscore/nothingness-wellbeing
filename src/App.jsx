@@ -82,10 +82,23 @@ const App = () => {
       }
     };
     
+    const handleMouseLeave = () => {
+      if (blobRef.current) {
+        blobRef.current.animate({
+          left: '50%',
+          top: '50%'
+        }, { duration: 4000, fill: "forwards", easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" });
+      }
+    };
+    
     const heroNode = heroRef.current;
     if (heroNode) {
       heroNode.addEventListener('mousemove', handleMouseMove);
-      return () => heroNode.removeEventListener('mousemove', handleMouseMove);
+      heroNode.addEventListener('mouseleave', handleMouseLeave);
+      return () => {
+        heroNode.removeEventListener('mousemove', handleMouseMove);
+        heroNode.removeEventListener('mouseleave', handleMouseLeave);
+      };
     }
   }, []);
 
