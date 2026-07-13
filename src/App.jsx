@@ -949,7 +949,7 @@ const App = () => {
 
         {/* Mobile Navigation Menu */}
         {mobileMenuOpen && (
-          <div className={`mobile-menu md:hidden ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-stone-200'} border-t border-opacity-30`}>
+          <div className="mobile-menu md:hidden absolute top-full left-0 right-0 mt-4 mx-4 glass-card rounded-2xl overflow-hidden border-opacity-50">
             <div className="max-w-5xl mx-auto px-6 py-4 flex flex-col gap-3">
               <a 
                 href="#counselling" 
@@ -1066,7 +1066,7 @@ const App = () => {
 
           {/* Location Info for In-person */}
           {selectedCounselling === 'inperson' && (
-            <div className="bg-stone-100 bg-opacity-40 p-6 rounded-lg mb-10 border border-stone-200 border-opacity-30 fade-in">
+            <div className="glass-card p-6 rounded-2xl mb-10 fade-in">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-stone-600 flex-shrink-0 mt-0.5" />
                 <div>
@@ -1112,7 +1112,7 @@ const App = () => {
           </div>
 
           {/* Tutoring Info */}
-          <div className="bg-white p-6 md:p-10 rounded-lg border border-stone-200 border-opacity-50 mb-10">
+          <div className="glass-card p-6 md:p-10 rounded-2xl mb-10">
             <div className="grid md:grid-cols-2 gap-6 md:gap-10">
               <div>
                 <h4 className="text-base md:text-lg font-medium mb-4 flex items-center gap-2">
@@ -1205,7 +1205,7 @@ const App = () => {
       </div>
 
       {/* Testimonials Section */}
-      <section className={`${darkMode ? 'bg-gray-950' : 'bg-stone-100 bg-opacity-50'} py-16 px-6`}>
+      <section className="py-16 px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h3 className={`text-3xl md:text-4xl font-light mb-3 ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>What Others Say</h3>
@@ -1216,7 +1216,7 @@ const App = () => {
           </div>
 
           <div className="text-center">
-            <div className={`inline-block px-8 py-6 rounded-lg ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-stone-200'} border`}>
+            <div className="inline-block px-8 py-6 rounded-2xl glass-card">
               <p className={`${darkMode ? 'text-slate-300' : 'text-stone-600'} text-sm md:text-base italic`}>
                 We're gathering real feedback from our clients. Check back soon to see what they have to say.
               </p>
@@ -1226,49 +1226,49 @@ const App = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-stone-900 text-stone-50 py-12 mt-12">
+      <footer className="mt-12 py-12 border-t border-stone-200 dark:border-white/10 transition-colors duration-500 relative z-10">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h4 className="font-light text-base md:text-lg mb-4">Nothingness Well-Being</h4>
-              <p className="text-stone-300 text-xs md:text-sm leading-relaxed">
+              <h4 className={`font-light text-base md:text-lg mb-4 ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>Nothingness Well-Being</h4>
+              <p className={`text-xs md:text-sm leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
                 Non-clinical counselling and psychology tutoring that focuses on the person. A practice based on being present, being clear, and making authentic connections.
               </p>
             </div>
             <div>
-              <h4 className="font-light text-base md:text-lg mb-4">Contact</h4>
+              <h4 className={`font-light text-base md:text-lg mb-4 ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>Contact</h4>
               <div className="mb-3">
-                <p className="text-stone-400 text-xs mb-1">Primary Contact</p>
-                <a href="tel:+918902460513" className="text-stone-300 text-xs md:text-sm hover:text-stone-50 transition flex items-center gap-2">
+                <p className={`text-xs mb-1 ${darkMode ? 'text-slate-400' : 'text-stone-500'}`}>Primary Contact</p>
+                <a href="tel:+918902460513" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
                   📞 +91 89024 60513 (Calls & Messages)
                 </a>
               </div>
               <div className="mb-3">
-                <p className="text-stone-400 text-xs mb-1">WhatsApp Preferred</p>
-                <a href="https://wa.me/918240213971" target="_blank" rel="noopener noreferrer" className="text-stone-300 text-xs md:text-sm hover:text-stone-50 transition flex items-center gap-2">
+                <p className={`text-xs mb-1 ${darkMode ? 'text-slate-400' : 'text-stone-500'}`}>WhatsApp Preferred</p>
+                <a href="https://wa.me/918240213971" target="_blank" rel="noopener noreferrer" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
                   💬 +91 82402 13971 (WhatsApp Direct)
                 </a>
               </div>
-              <a href="mailto:circle5.nothingness@proton.me" className="text-stone-300 text-xs md:text-sm hover:text-stone-50 transition flex items-center gap-2 mb-3">
+              <a href="mailto:circle5.nothingness@proton.me" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 mb-3 ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
                 <Mail className="w-4 h-4 flex-shrink-0" />
                 circle5.nothingness@proton.me
               </a>
-              <p className="text-stone-400 text-xs">
+              <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-stone-500'}`}>
                 Response within 24-48 hours
               </p>
             </div>
             <div>
-              <h4 className="font-light text-base md:text-lg mb-4">Location</h4>
-              <p className="text-stone-300 text-xs md:text-sm leading-relaxed">
+              <h4 className={`font-light text-base md:text-lg mb-4 ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>Location</h4>
+              <p className={`text-xs md:text-sm leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
                 Hazra More, Kalighat<br />
                 Kolkata, India 700026<br />
               </p>
-              <p className="text-stone-400 text-xs mt-2">In-person & Online</p>
+              <p className={`text-xs mt-2 ${darkMode ? 'text-slate-400' : 'text-stone-500'}`}>In-person & Online</p>
             </div>
           </div>
           
-          <div className="border-t border-stone-800 pt-8">
-            <p className="text-stone-400 text-xs text-center leading-relaxed">
+          <div className="border-t border-stone-200 dark:border-white/10 pt-8">
+            <p className={`text-xs text-center leading-relaxed ${darkMode ? 'text-slate-400' : 'text-stone-500'}`}>
               © 2026 Nothingness Well-Being. All practices rooted in presence, clarity, and the courage to be fully yourself.
             </p>
           </div>
