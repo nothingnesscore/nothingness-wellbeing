@@ -172,8 +172,11 @@ const App = () => {
   }
 
   return (
-    <div className={`relative min-h-screen transition-colors duration-300 ${darkMode ? 'dark bg-black/80 text-slate-50' : 'bg-stone-50/80 text-stone-900'}`}>
-      <LiquidZenScene darkMode={darkMode} isBursting={isBursting} />
+    <div className="relative">
+      <div className="fixed inset-0 z-0">
+        <LiquidZenScene darkMode={darkMode} isBursting={isBursting} />
+      </div>
+      <div className={`relative z-10 min-h-screen transition-colors duration-300 ${darkMode ? 'dark bg-black/40 text-slate-50' : 'bg-stone-50/40 text-stone-900'}`}>
       {/* Custom font styles */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Lora:wght@400;500&display=swap');
@@ -1187,6 +1190,7 @@ const App = () => {
           </div>
         </div>
       </footer>
+      </div>
       <SpeedInsights />
       <Analytics />
     </div>
