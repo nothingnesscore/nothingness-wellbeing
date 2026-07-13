@@ -117,9 +117,9 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
         ref={materialRef}
         size={0.04}
         transparent={true}
-        opacity={darkMode ? 0.6 : 0.4}
+        opacity={darkMode ? 0.6 : 0.6}
         sizeAttenuation={true}
-        blending={THREE.AdditiveBlending}
+        blending={darkMode ? THREE.AdditiveBlending : THREE.NormalBlending}
         depthWrite={false}
       />
     </points>
