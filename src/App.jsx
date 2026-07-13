@@ -668,6 +668,10 @@ const App = () => {
           justify-content: center;
           position: relative;
           overflow: hidden;
+          background-color: #faf8f3;
+        }
+
+        .dark .hero-section {
           background-color: var(--bg-primary, #000000);
         }
 
@@ -678,47 +682,79 @@ const App = () => {
           left: -50%;
           width: 200%;
           height: 200%;
+          background: radial-gradient(circle at center, rgba(168, 153, 104, 0.15) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.03) 0%, transparent 30%);
+          animation: slowLiquidMove 20s ease-in-out infinite alternate;
+          z-index: 0;
+          will-change: transform;
+          transform: translateZ(0);
+        }
+
+        .dark .hero-section::before {
           background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 40%),
                       radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 30%);
-          animation: slowLiquidMove 15s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
-          z-index: 0;
         }
 
         @keyframes slowLiquidMove {
-          0% { transform: translate(0, 0) scale(1); }
-          100% { transform: translate(-5%, 5%) scale(1.1); }
+          0% { transform: translate(0, 0) scale(1) translateZ(0); }
+          100% { transform: translate(-3%, 3%) scale(1.05) translateZ(0); }
         }
 
         /* 2. Glass Cards (Resources, Info boxes) */
         .glass-card {
-          background: rgba(255, 255, 255, 0.03); 
+          background: rgba(255, 255, 255, 0.6); 
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-          transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+          transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           z-index: 1;
+          will-change: transform, box-shadow;
+        }
+
+        .dark .glass-card {
+          background: rgba(255, 255, 255, 0.03); 
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         .glass-card:hover {
+          background: rgba(255, 255, 255, 0.8);
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          transform: translateY(-4px) translateZ(0);
+          box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .glass-card:hover {
           background: rgba(255, 255, 255, 0.06);
           border: 1px solid rgba(255, 255, 255, 0.15);
-          transform: translateY(-4px);
           box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
         }
 
         /* 3. Liquid Floating Navbar */
         .glass-nav {
-          background: rgba(10, 10, 10, 0.6);
+          background: rgba(250, 248, 243, 0.7);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(0, 0, 0, 0.05);
           border-radius: 9999px;
           transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: transform, background-color, box-shadow;
+        }
+
+        .dark .glass-nav {
+          background: rgba(10, 10, 10, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .glass-nav-scrolled {
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(168, 153, 104, 0.2); 
+          box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .dark .glass-nav-scrolled {
           background: rgba(0, 0, 0, 0.85);
           border: 1px solid rgba(212, 175, 55, 0.2); 
           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -726,13 +762,20 @@ const App = () => {
 
         /* 4. Glass Buttons */
         .button-glass {
-          background: rgba(212, 175, 55, 0.1);
+          background: rgba(168, 153, 104, 0.1);
           backdrop-filter: blur(8px);
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          color: #d4af37;
+          border: 1px solid rgba(168, 153, 104, 0.3);
+          color: #a89968;
           transition: all 400ms ease;
           position: relative;
           overflow: hidden;
+          will-change: transform, background-color;
+        }
+
+        .dark .button-glass {
+          background: rgba(212, 175, 55, 0.1);
+          border: 1px solid rgba(212, 175, 55, 0.3);
+          color: #d4af37;
         }
 
         .button-glass::after {
@@ -742,13 +785,24 @@ const App = () => {
           left: 50%;
           width: 150%;
           height: 150%;
-          background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%);
+          background: radial-gradient(circle, rgba(168, 153, 104, 0.2) 0%, transparent 60%);
           transform: translate(-50%, -50%) scale(0);
           transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
           opacity: 0;
+          will-change: transform, opacity;
+        }
+
+        .dark .button-glass::after {
+          background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%);
         }
 
         .button-glass:hover {
+          background: rgba(168, 153, 104, 0.2);
+          border-color: rgba(168, 153, 104, 0.6);
+          box-shadow: 0 0 20px rgba(168, 153, 104, 0.15);
+        }
+
+        .dark .button-glass:hover {
           background: rgba(212, 175, 55, 0.2);
           border-color: rgba(212, 175, 55, 0.6);
           box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
