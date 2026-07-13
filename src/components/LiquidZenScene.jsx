@@ -67,17 +67,17 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
     }
 
     if (pointsRef.current) {
-      // Fluid, wave-like follow (reduced multiplier for subtlety, smoother lerp)
+      // Fluid, wave-like follow (increased lerp factor so it doesn't feel too slow)
       const targetX = state.pointer.x * 1.2;
       const targetY = state.pointer.y * 1.2;
-      pointsRef.current.position.x = THREE.MathUtils.lerp(pointsRef.current.position.x, targetX, 0.015);
-      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, targetY, 0.015);
+      pointsRef.current.position.x = THREE.MathUtils.lerp(pointsRef.current.position.x, targetX, 0.04);
+      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, targetY, 0.04);
 
       // Subtle wave-like tilt (rotation) based on mouse position
       const targetRotX = state.pointer.y * 0.3;
       const targetRotY = state.pointer.x * 0.3;
-      pointsRef.current.rotation.x = THREE.MathUtils.lerp(pointsRef.current.rotation.x, targetRotX + time * 0.03, 0.02);
-      pointsRef.current.rotation.y = THREE.MathUtils.lerp(pointsRef.current.rotation.y, targetRotY + time * 0.06, 0.02);
+      pointsRef.current.rotation.x = THREE.MathUtils.lerp(pointsRef.current.rotation.x, targetRotX + time * 0.04, 0.03);
+      pointsRef.current.rotation.y = THREE.MathUtils.lerp(pointsRef.current.rotation.y, targetRotY + time * 0.08, 0.03);
 
       // Disintegration / Reintegration particle logic
       const positionsAttr = pointsRef.current.geometry.attributes.position;
@@ -133,14 +133,32 @@ const GlobalMouseTracker = () => {
   const { set } = useThree();
   
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMove = (e) => {
+      // Handle both mouse and touch events
+      let clientX, clientY;
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      
       // Normalize to -1 to +1
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = -(e.clientY / window.innerHeight) * 2 + 1;
+      const x = (clientX / window.innerWidth) * 2 - 1;
+      const y = -(clientY / window.innerHeight) * 2 + 1;
       set({ pointer: new THREE.Vector2(x, y) });
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    window.addEventListener('touchmove', handleMove, { passive: true });
+    window.addEventListener('touchstart', handleMove, { passive: true });
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('touchmove', handleMove);
+      window.removeEventListener('touchstart', handleMove);
+    };
   }, [set]);
   
   return null;
