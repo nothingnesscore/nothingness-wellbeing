@@ -379,10 +379,6 @@ const App = () => {
           background-color: transparent;
         }
         
-        .dark .mobile-menu {
-          background-color: #1e293b;
-        }
-        
         /* Dark mode footer links and text */
         .dark .text-stone-300 {
           color: #cbd5e1;
@@ -641,11 +637,9 @@ const App = () => {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          background-color: #faf8f3;
         }
 
         .dark .hero-section {
-          background-color: var(--bg-primary, #000000);
         }
 
         .hero-section::before {
