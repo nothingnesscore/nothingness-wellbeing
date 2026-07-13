@@ -64,6 +64,31 @@ const App = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [darkModePreference]);
 
+  const heroRef = React.useRef(null);
+  const blobRef = React.useRef(null);
+
+  // Mouse tracking for liquid blob animation in Hero
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (blobRef.current && heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        blobRef.current.animate({
+          left: `${x}px`,
+          top: `${y}px`
+        }, { duration: 3000, fill: "forwards", easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" });
+      }
+    };
+    
+    const heroNode = heroRef.current;
+    if (heroNode) {
+      heroNode.addEventListener('mousemove', handleMouseMove);
+      return () => heroNode.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
+
   // Initialize Cal.com embed — re-runs whenever dark mode changes to sync theme
   useEffect(() => {
     (async function () {
@@ -224,47 +249,63 @@ const App = () => {
           margin-right: auto;
         }
         
-        .hero-section {
-          min-height: 70vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #faf8f3 0%, #f5f1e8 100%);
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .dark .hero-section {
-          background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
-        }
-        
         .circle-accent {
           position: absolute;
           border-radius: 50%;
-          opacity: 0.08;
+          filter: blur(60px);
+          opacity: 0.4;
+          z-index: 0;
+          will-change: transform;
+        }
+        
+        .dark .circle-accent {
+          opacity: 0.15;
         }
         
         .circle-1 {
-          width: 400px;
-          height: 400px;
+          width: 500px;
+          height: 500px;
           background: #a89968;
           top: -100px;
           right: -100px;
-          animation: floatSlowly 6s ease-in-out infinite;
+          animation: floatSlowly 8s ease-in-out infinite alternate;
         }
         
         .circle-2 {
-          width: 300px;
-          height: 300px;
-          background: #7a7a7a;
-          bottom: -80px;
-          left: -80px;
-          animation: floatSlowly 8s ease-in-out infinite;
+          width: 400px;
+          height: 400px;
+          background: #e2e8f0;
+          bottom: -150px;
+          left: -100px;
+          animation: floatSlowly 12s ease-in-out infinite alternate-reverse;
+        }
+        
+        .dark .circle-2 {
+          background: #334155;
+        }
+        
+        .pointer-blob {
+          position: absolute;
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(168, 153, 104, 0.4) 0%, transparent 70%);
+          border-radius: 50%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+          z-index: 0;
+          filter: blur(50px);
+          will-change: transform, left, top;
+        }
+        
+        .dark .pointer-blob {
+          background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
         }
         
         @keyframes floatSlowly {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(20px); }
+          0% { transform: translate(0, 0) scale(1); }
+          100% { transform: translate(30px, -30px) scale(1.1); }
         }
         
         .fade-in {
@@ -924,16 +965,17 @@ const App = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="hero-section">
+      <section className="hero-section" ref={heroRef}>
         <div className="circle-accent circle-1"></div>
         <div className="circle-accent circle-2"></div>
+        <div className="pointer-blob" ref={blobRef}></div>
         
         <div className="max-w-2xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-light mb-4 tracking-tight fade-in stagger-1">
+          <h2 className={`text-4xl md:text-6xl font-light mb-4 tracking-tight fade-in stagger-1 ${darkMode ? 'text-slate-50' : 'text-stone-900'}`}>
             Nothingness<br />Well-Being
           </h2>
           <div className="zen-line fade-in stagger-2"></div>
-          <p className="text-base md:text-lg text-stone-700 mt-8 leading-relaxed max-w-xl mx-auto font-light fade-in stagger-3">
+          <p className={`text-base md:text-lg mt-8 leading-relaxed max-w-xl mx-auto font-light fade-in stagger-3 ${darkMode ? 'text-slate-300' : 'text-stone-700'}`}>
             Non-clinical counselling and psychology tutoring based on being present with the person. A place where the self dissolves down into clarity, healing, and understanding.
           </p>
         </div>
