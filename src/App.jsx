@@ -655,10 +655,113 @@ const App = () => {
             transform: translateY(0);
           }
         }
+        
+        /* =========================================
+           LIQUID GLASS DESIGN SYSTEM 
+           ========================================= */
+
+        /* 1. Atmospheric Liquid Background (Hero Section) */
+        .hero-section {
+          min-height: 70vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          background-color: var(--bg-primary, #000000);
+        }
+
+        .hero-section::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 30%);
+          animation: slowLiquidMove 15s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+          z-index: 0;
+        }
+
+        @keyframes slowLiquidMove {
+          0% { transform: translate(0, 0) scale(1); }
+          100% { transform: translate(-5%, 5%) scale(1.1); }
+        }
+
+        /* 2. Glass Cards (Resources, Info boxes) */
+        .glass-card {
+          background: rgba(255, 255, 255, 0.03); 
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+          transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          z-index: 1;
+        }
+
+        .glass-card:hover {
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          transform: translateY(-4px);
+          box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        /* 3. Liquid Floating Navbar */
+        .glass-nav {
+          background: rgba(10, 10, 10, 0.6);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 9999px;
+          transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-nav-scrolled {
+          background: rgba(0, 0, 0, 0.85);
+          border: 1px solid rgba(212, 175, 55, 0.2); 
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* 4. Glass Buttons */
+        .button-glass {
+          background: rgba(212, 175, 55, 0.1);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(212, 175, 55, 0.3);
+          color: #d4af37;
+          transition: all 400ms ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .button-glass::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 150%;
+          height: 150%;
+          background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%);
+          transform: translate(-50%, -50%) scale(0);
+          transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+          opacity: 0;
+        }
+
+        .button-glass:hover {
+          background: rgba(212, 175, 55, 0.2);
+          border-color: rgba(212, 175, 55, 0.6);
+          box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .button-glass:hover::after {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
+        }
       `}</style>
 
       {/* Navigation */}
-      <nav className={`sticky top-0 ${darkMode ? 'bg-black border-gray-900' : 'bg-stone-50 border-stone-200'} bg-opacity-90 backdrop-blur-md z-50 border-b border-opacity-30 transition-all duration-300 ${scrolled ? 'py-2 shadow-lg' : 'py-4 shadow-none'}`}>
+      <nav className={`fixed z-50 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl transition-all duration-500 ease-in-out glass-nav ${scrolled ? 'top-2 py-2 glass-nav-scrolled' : 'top-6 py-4'}`}>
         <div className="max-w-5xl mx-auto px-6 flex justify-between items-center">
           <a href="/" className={`flex items-center gap-3 hover:opacity-80 transition ${scrolled ? 'scale-90' : 'scale-100'}`}>
             <img src="/logo.png" alt="Nothingness Well-Being" className={`rounded-full object-cover transition-all duration-300 ${scrolled ? 'w-8 h-8 md:w-9 md:h-9' : 'w-10 h-10 md:w-12 md:h-12'}`} />
@@ -825,7 +928,7 @@ const App = () => {
 
           {/* Session Info Cards */}
           <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-10">
-            <div className="info-card hover-lift">
+            <div className="info-card hover-lift glass-card">
               <div className="flex items-start gap-4">
                 <Calendar className="w-6 h-6 text-stone-600 flex-shrink-0 mt-1" />
                 <div>
@@ -839,7 +942,7 @@ const App = () => {
               </div>
             </div>
 
-            <div className="info-card hover-lift">
+            <div className="info-card hover-lift glass-card">
               <div className="flex items-start gap-4">
                 <Mail className="w-6 h-6 text-stone-600 flex-shrink-0 mt-1" />
                 <div>
@@ -874,7 +977,7 @@ const App = () => {
               data-cal-link={selectedCounselling === 'online' ? 'nothingness-wb/online' : 'nothingness-wb/in-person'}
               data-cal-origin="https://cal.com"
               data-cal-config={JSON.stringify({ layout: "month_view", theme: darkMode ? "dark" : "light" })}
-              className="button-primary inline-flex items-center gap-2 text-sm md:text-base"
+              className="button-glass inline-flex items-center gap-2 text-sm md:text-base px-6 py-3 rounded-full font-medium"
             >
               Open Booking Calendar
             </button>
@@ -929,7 +1032,7 @@ const App = () => {
           <div className="cta-section">
             <p className="text-stone-600 mb-4 text-sm md:text-base">Ready to explore Psychology together?</p>
             <div className="flex flex-col gap-4 items-center">
-              <a href="https://wa.me/918240213971?text=Hello%21%20I%27m%20interested%20in%20psychology%20tuitions%2E%20Could%20we%20discuss%20how%20it%20might%20work%3F" target="_blank" rel="noopener noreferrer" className="button-primary inline-flex items-center gap-2 text-sm md:text-base">
+              <a href="https://wa.me/918240213971?text=Hello%21%20I%27m%20interested%20in%20psychology%20tuitions%2E%20Could%20we%20discuss%20how%20it%20might%20work%3F" target="_blank" rel="noopener noreferrer" className="button-glass inline-flex items-center gap-2 text-sm md:text-base px-6 py-3 rounded-full font-medium">
                 💬 WhatsApp / Call
               </a>
               <p className="text-xs text-stone-500">
@@ -956,7 +1059,7 @@ const App = () => {
 
           {/* Resource Cards */}
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            <div className="resource-card hover-lift">
+            <div className="resource-card hover-lift glass-card">
               <div className="icon-wrapper">
                 <Video className="w-7 h-7" />
               </div>
@@ -967,7 +1070,7 @@ const App = () => {
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
             </div>
 
-            <div className="resource-card hover-lift">
+            <div className="resource-card hover-lift glass-card">
               <div className="icon-wrapper">
                 <FileText className="w-7 h-7" />
               </div>
@@ -978,7 +1081,7 @@ const App = () => {
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
             </div>
 
-            <div className="resource-card hover-lift">
+            <div className="resource-card hover-lift glass-card">
               <div className="icon-wrapper">
                 <BookOpen className="w-7 h-7" />
               </div>
