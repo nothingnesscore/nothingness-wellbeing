@@ -75,33 +75,12 @@ const App = () => {
   }, [darkModePreference]);
 
 
-  // Initialize Cal.com embed — re-runs whenever dark mode changes to sync theme
+  // Initialize Cal.com embed API once
   useEffect(() => {
     (async function () {
-      const cal = await getCalApi({ calOrigin: "https://cal.com" });
-      cal("ui", {
-        theme: darkMode ? "dark" : "light",
-        hideEventTypeDetails: false,
-        layout: "month_view",
-        cssVarsPerTheme: {
-          light: {
-            "cal-brand":           "#a89968",
-            "cal-brand-emphasis":  "#7a6a48",
-            "cal-bg":              "#faf8f3",
-            "cal-text":            "#292524",
-          },
-          dark: {
-            "cal-brand":           "#d4af37",
-            "cal-brand-emphasis":  "#b8942d",
-            "cal-bg":              "#000000",
-            "cal-bg-muted":        "#0a0a0a",
-            "cal-text":            "#f1f5f9",
-            "cal-border":          "#2d2d2d",
-          },
-        },
-      });
+      await getCalApi({ calOrigin: "https://cal.com" });
     })();
-  }, [darkMode]);
+  }, []);
 
   // Handle scroll for navbar shrink/expand with debounce
   useEffect(() => {
@@ -995,7 +974,14 @@ const App = () => {
               onClick={() => setIsBursting(true)}
               data-cal-link={selectedCounselling === 'online' ? 'nothingness-wb/online' : 'nothingness-wb/in-person'}
               data-cal-origin="https://cal.com"
-              data-cal-config={JSON.stringify({ layout: "month_view", theme: darkMode ? "dark" : "light" })}
+              data-cal-config={JSON.stringify({ 
+                layout: "month_view", 
+                theme: darkMode ? "dark" : "light",
+                cssVarsPerTheme: {
+                  light: { "cal-brand": "#a89968", "cal-brand-emphasis": "#7a6a48", "cal-bg": "#faf8f3", "cal-text": "#292524" },
+                  dark: { "cal-brand": "#d4af37", "cal-brand-emphasis": "#b8942d", "cal-bg": "#000000", "cal-bg-muted": "#0a0a0a", "cal-text": "#f1f5f9", "cal-border": "#2d2d2d" }
+                }
+              })}
               className="button-glass inline-flex items-center gap-2 text-sm md:text-base px-6 py-3 rounded-full font-medium"
             >
               Open Booking Calendar
