@@ -277,16 +277,7 @@ const App = () => {
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
         }
         
-        /* Dark mode for cards and containers */
-        .dark .bg-white {
-          background-color: #0a0a0a;
-          color: #f1f5f9;
-        }
-        
-        .dark .bg-stone-100 {
-          background-color: #1a1a1a;
-        }
-        
+        /* Dark mode for borders */
         .dark .border-stone-200 {
           border-color: #2d2d2d;
         }
@@ -337,21 +328,8 @@ const App = () => {
           background: linear-gradient(to right, transparent, #475569, transparent);
         }
         
-        /* Dark mode info cards */
-        .dark .info-card {
-          background: #0a0a0a;
-          border-color: #2d2d2d;
-        }
-        
-        .dark .info-card:hover {
-          border-color: #d4af37;
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.8);
-        }
-        
         /* Dark mode CTA section */
-        .dark .cta-section {
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-        }
+        /* Inheriting translucent glass-card / low-opacity gradients instead of solid colors */
         
         /* Dark mode section backgrounds */
         .dark section {
@@ -387,8 +365,6 @@ const App = () => {
         
         /* DARK MODE RESOURCE CARDS & COMPONENTS */
         .dark .resource-card {
-          background: #0a0a0a !important;
-          border-color: #2d2d2d !important;
         }
         
         .dark .resource-card h4 {
@@ -519,15 +495,11 @@ const App = () => {
         .resource-card {
           text-align: center;
           padding: 2rem 1.5rem;
-          background: white;
           border-radius: 8px;
           transition: all 0.3s ease;
-          border: 1px solid #efe9e0;
         }
         
         .dark-mode .resource-card {
-          background: #1e293b;
-          border-color: #334155;
         }
         
         .resource-card:hover {
@@ -567,26 +539,14 @@ const App = () => {
         }
         
         .info-card {
-          background: white;
           padding: 2rem;
           border-radius: 8px;
-          border: 1px solid #efe9e0;
           transition: all 0.3s ease;
         }
         
         .info-card:hover {
           border-color: #a89968;
           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
-        }
-        
-        .dark .info-card {
-          background: #1e293b;
-          border-color: #334155;
-        }
-        
-        .dark .info-card:hover {
-          border-color: #d4af37;
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
         }
 
         .mobile-menu {
