@@ -276,7 +276,7 @@ const App = () => {
 
         {/* Mobile Navigation Menu */}
         {mobileMenuOpen && (
-          <div className="mobile-menu md:hidden absolute top-full left-0 right-0 mt-4 mx-4 glass-card rounded-2xl overflow-hidden border-opacity-50">
+          <div className="mobile-menu md:hidden absolute top-full left-0 right-0 mt-4 mx-4 bg-white/95 dark:bg-[#050505]/95 backdrop-blur-2xl border border-stone-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50">
             <div className="max-w-5xl mx-auto px-6 py-4 flex flex-col gap-3">
               <a 
                 href="#counselling" 
@@ -388,7 +388,7 @@ const App = () => {
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110 mx-auto">
-                <Calendar className="w-7 h-7 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]" />
+                <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
               </div>
               
               <h4 className="text-lg md:text-xl font-medium mb-4">Flexible Scheduling</h4>
@@ -403,7 +403,7 @@ const App = () => {
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110 mx-auto">
-                <Mail className="w-7 h-7 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]" />
+                <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
               </div>
               
               <h4 className="text-lg md:text-xl font-medium mb-4">Personalised Approach</h4>

@@ -137,12 +137,12 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
         }
 
         if (isBursting) {
-           const activeWaveX = (Math.random() - 0.5) * 0.5;
-           const activeWaveY = (Math.random() - 0.5) * 0.5;
-           const activeWaveZ = (Math.random() - 0.5) * 2;
-           positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], currentOrigX + pullX + activeWaveX, speeds[i] * 3.0);
-           positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + pullY + activeWaveY, speeds[i] * 3.0);
-           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], curveZ + pullZ + activeWaveZ, speeds[i] * 3.0);
+           // Smoothly push all particles away from the center into the background, no random jitter
+           const burstPushZ = -2.0;
+           const burstPushX = (currentOrigX > 0 ? 1 : -1) * 1.5;
+           positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], currentOrigX + burstPushX, speeds[i] * 2.0);
+           positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1], speeds[i] * 2.0);
+           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], curveZ + burstPushZ, speeds[i] * 2.0);
         } else {
            positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], currentOrigX + pullX, speeds[i] * 4.0);
            positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + waveY + pullY, speeds[i] * 4.0);
