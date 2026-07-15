@@ -6,27 +6,41 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
   const pointsRef = useRef();
   const materialRef = useRef();
   
-  const count = 4000;
+  const count = 5000; // Increased count for dense data bands
   
-  // Pre-calculate particle positions and target scatter directions
+  // Create perfect circular texture for particles
+  const circleTexture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
+    const context = canvas.getContext('2d');
+    context.beginPath();
+    context.arc(16, 16, 14, 0, 2 * Math.PI, false);
+    context.fillStyle = '#ffffff';
+    context.fill();
+    return new THREE.CanvasTexture(canvas);
+  }, []);
+
+  // Pre-calculate Animus-style horizontal band positions
   const [positions, originalPositions, randomDirections, speeds] = useMemo(() => {
     const pos = new Float32Array(count * 3);
     const orig = new Float32Array(count * 3);
     const dirs = new Float32Array(count * 3);
     const speeds = new Float32Array(count);
     
+    const numLines = 80;
+    const particlesPerLine = Math.floor(count / numLines); 
+    
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
+      const lineIndex = Math.floor(i / particlesPerLine);
+      const particleIndex = i % particlesPerLine;
       
-      // Spherical distribution, clustered towards the center
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos((Math.random() * 2) - 1);
-      // radius factor to cluster closer to center (smaller cloud overall)
-      const r = 0.5 * Math.pow(Math.random(), 1.5); 
-      
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.sin(phi) * Math.sin(theta);
-      const z = r * Math.cos(phi);
+      // Spread X across screen space
+      const x = -8 + (particleIndex / particlesPerLine) * 16;
+      // Spread Y across screen space
+      const y = 4 - (lineIndex / numLines) * 8;
+      const z = 0;
       
       pos[i3] = x;
       pos[i3 + 1] = y;
@@ -37,29 +51,27 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
       orig[i3 + 2] = z;
       
       // Random direction for bursting/scattering
-      // We push them very far out in random directions
-      const scatterDist = Math.random() * 20 + 5;
-      dirs[i3] = x * scatterDist + (Math.random() - 0.5) * 5;
-      dirs[i3 + 1] = y * scatterDist + (Math.random() - 0.5) * 5;
-      dirs[i3 + 2] = z * scatterDist + (Math.random() - 0.5) * 5;
+      dirs[i3] = x * 2;
+      dirs[i3 + 1] = y * 2;
+      dirs[i3 + 2] = (Math.random() - 0.5) * 5;
       
-      // Individual particle speed variance for organic feeling
-      speeds[i] = Math.random() * 0.05 + 0.01;
+      // Random speed for organic spring feel
+      speeds[i] = 0.02 + Math.random() * 0.03;
     }
+    
     return [pos, orig, dirs, speeds];
   }, [count]);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     
-    // Smoothly shift colors through muted, ethereal hues
+    // Smoothly shift colors through ethereal hues
     if (materialRef.current) {
-      // Very slow hue shift
-      const hue = (time * 0.03) % 1; 
+      const hue = (time * 0.02) % 1; 
       
       if (darkMode) {
-         // Amber / Gold / Warm glowing base
-         materialRef.current.color.setHSL(hue, 0.4, 0.5);
+         // Vibrant glowing amber/gold for true-black AMOLED contrast
+         materialRef.current.color.setHSL(hue, 0.6, 0.6);
       } else {
          // Muted, sandy / warm grey base
          materialRef.current.color.setHSL(hue, 0.3, 0.4);
@@ -67,38 +79,68 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
     }
 
     if (pointsRef.current) {
-      // Fluid, wave-like follow (increased lerp factor so it doesn't feel too slow)
-      const targetX = state.pointer.x * 1.2;
-      const targetY = state.pointer.y * 1.2;
-      pointsRef.current.position.x = THREE.MathUtils.lerp(pointsRef.current.position.x, targetX, 0.04);
-      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, targetY, 0.04);
-
-      // Subtle wave-like tilt (rotation) based on mouse position
-      const targetRotX = state.pointer.y * 0.3;
-      const targetRotY = state.pointer.x * 0.3;
-      pointsRef.current.rotation.x = THREE.MathUtils.lerp(pointsRef.current.rotation.x, targetRotX + time * 0.04, 0.03);
-      pointsRef.current.rotation.y = THREE.MathUtils.lerp(pointsRef.current.rotation.y, targetRotY + time * 0.08, 0.03);
-
-      // Disintegration / Reintegration particle logic
       const positionsAttr = pointsRef.current.geometry.attributes.position;
       
+      // Gentle floating of the entire grid
+      pointsRef.current.position.x = Math.sin(time * 0.1) * 0.2;
+      pointsRef.current.position.y = Math.cos(time * 0.1) * 0.2;
+
       for (let i = 0; i < count; i++) {
         const i3 = i * 3;
+        const lineIndex = Math.floor(i / (count / 80));
         
-        if (isBursting) {
-           // Disintegrate: violently scatter particles toward random targets
-           positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], randomDirections[i3], speeds[i] * 2);
-           positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], randomDirections[i3 + 1], speeds[i] * 2);
-           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], randomDirections[i3 + 2], speeds[i] * 2);
-        } else {
-           // Reintegrate: gentle, liquid-like breathing sine waves
-           const floatX = Math.sin(time * 1.5 + i * 0.1) * 0.03;
-           const floatY = Math.cos(time * 1.8 + i * 0.1) * 0.03;
-           const floatZ = Math.sin(time * 1.2 + i * 0.1) * 0.03;
+        // Alternating bands: even lines are "hard/dense", odd lines are "soft/sparse"
+        const isHardBand = lineIndex % 2 === 0;
+        
+        // Gentle horizontal drift (data stream)
+        const driftSpeed = isHardBand ? 0.3 : 0.15;
+        let currentOrigX = originalPositions[i3] + time * driftSpeed;
+        
+        // Wrap around seamlessly
+        if (currentOrigX > 8) {
+           currentOrigX = -8 + (currentOrigX % 8);
+        }
+        
+        // Data wave effect
+        const waveAmp = isHardBand ? 0.06 : 0.02;
+        const waveY = Math.sin(time * 1.5 + currentOrigX * 2) * waveAmp;
+        
+        // Strict balloon mouse interaction
+        // Map pointer to wider world space
+        const mouseWorldX = state.pointer.x * 5.0; 
+        const mouseWorldY = state.pointer.y * 3.5;
+        const dx = currentOrigX - mouseWorldX;
+        const dy = originalPositions[i3 + 1] - mouseWorldY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        let pullX = 0;
+        let pullY = 0;
+        let pullZ = 0;
+        
+        // When mouse is near, attract and distort like a balloon
+        if (dist < 1.8) {
+           const force = (1.8 - dist) / 1.8; 
+           const curve = Math.pow(force, 1.5);
            
-           positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], originalPositions[i3] + floatX, speeds[i]);
-           positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + floatY, speeds[i]);
-           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], originalPositions[i3 + 2] + floatZ, speeds[i]);
+           // Pull strictly towards mouse (concentration)
+           pullX = -dx * curve * 0.9;
+           pullY = -dy * curve * 0.9;
+           
+           // Bulge out in Z to make the balloon 3D and spherical
+           pullZ = curve * 1.5;
+        }
+
+        if (isBursting) {
+           const activeWaveX = (Math.random() - 0.5) * 0.5;
+           const activeWaveY = (Math.random() - 0.5) * 0.5;
+           const activeWaveZ = (Math.random() - 0.5) * 2;
+           positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], currentOrigX + pullX + activeWaveX, speeds[i] * 3.0);
+           positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + pullY + activeWaveY, speeds[i] * 3.0);
+           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], originalPositions[i3 + 2] + pullZ + activeWaveZ, speeds[i] * 3.0);
+        } else {
+           positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], currentOrigX + pullX, speeds[i] * 4.0);
+           positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + waveY + pullY, speeds[i] * 4.0);
+           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], pullZ, speeds[i] * 4.0);
         }
       }
       positionsAttr.needsUpdate = true;
@@ -117,9 +159,11 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
       </bufferGeometry>
       <pointsMaterial
         ref={materialRef}
-        size={0.04}
+        size={0.06}
+        map={circleTexture}
+        alphaTest={0.01}
         transparent={true}
-        opacity={darkMode ? 0.6 : 0.6}
+        opacity={darkMode ? 0.9 : 0.7}
         sizeAttenuation={true}
         blending={THREE.NormalBlending}
         depthWrite={false}
@@ -134,40 +178,41 @@ const GlobalMouseTracker = () => {
   
   useEffect(() => {
     const handleMove = (e) => {
-      // Handle both mouse and touch events
-      let clientX, clientY;
-      if (e.touches && e.touches.length > 0) {
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-      } else {
-        clientX = e.clientX;
-        clientY = e.clientY;
-      }
-      
-      // Normalize to -1 to +1
-      const x = (clientX / window.innerWidth) * 2 - 1;
-      const y = -(clientY / window.innerHeight) * 2 + 1;
+      // Map to normalized device coordinates [-1, 1]
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = -(e.clientY / window.innerHeight) * 2 + 1;
       set({ pointer: new THREE.Vector2(x, y) });
     };
     
-    window.addEventListener('mousemove', handleMove, { passive: true });
-    window.addEventListener('touchmove', handleMove, { passive: true });
-    window.addEventListener('touchstart', handleMove, { passive: true });
+    // Add touch support
+    const handleTouch = (e) => {
+      if(e.touches.length > 0) {
+        const x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+        const y = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
+        set({ pointer: new THREE.Vector2(x, y) });
+      }
+    };
+
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('touchmove', handleTouch, { passive: true });
     
     return () => {
       window.removeEventListener('mousemove', handleMove);
-      window.removeEventListener('touchmove', handleMove);
-      window.removeEventListener('touchstart', handleMove);
+      window.removeEventListener('touchmove', handleTouch);
     };
   }, [set]);
-  
+
   return null;
 };
 
 const LiquidZenScene = ({ darkMode, isBursting }) => {
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1, pointerEvents: 'none' }}>
-      <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={[1, 2]} style={{ pointerEvents: 'none' }}>
+    <div className="w-full h-screen fixed inset-0 z-0 pointer-events-none">
+      <Canvas 
+        camera={{ position: [0, 0, 4.5], fov: 45 }}
+        dpr={[1, 2]} // Support high-dpi displays but cap at 2x for performance
+        gl={{ alpha: true, antialias: true }}
+      >
         <GlobalMouseTracker />
         <ParticleCloud darkMode={darkMode} isBursting={isBursting} />
       </Canvas>
