@@ -11,13 +11,17 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
   // Create perfect circular texture for particles
   const circleTexture = useMemo(() => {
     const canvas = document.createElement('canvas');
-    canvas.width = 32;
-    canvas.height = 32;
+    canvas.width = 64;
+    canvas.height = 64;
     const context = canvas.getContext('2d');
-    context.beginPath();
-    context.arc(16, 16, 14, 0, 2 * Math.PI, false);
-    context.fillStyle = '#ffffff';
-    context.fill();
+    
+    const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.4, 'rgba(255, 255, 255, 0.8)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 64, 64);
     return new THREE.CanvasTexture(canvas);
   }, []);
 
@@ -75,6 +79,15 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
     if (pointsRef.current) {
       const positionsAttr = pointsRef.current.geometry.attributes.position;
       
+      // Unproject mouse coordinates to accurate Z=0 world plane
+      const vec = new THREE.Vector3(state.pointer.x, state.pointer.y, 0.5);
+      vec.unproject(state.camera);
+      vec.sub(state.camera.position).normalize();
+      const distance = -state.camera.position.z / vec.z;
+      const mousePos = new THREE.Vector3().copy(state.camera.position).add(vec.multiplyScalar(distance));
+      const mouseWorldX = mousePos.x;
+      const mouseWorldY = mousePos.y;
+
       // Gentle floating of the entire grid
       pointsRef.current.position.x = Math.sin(time * 0.1) * 0.2;
       pointsRef.current.position.y = Math.cos(time * 0.1) * 0.2;
@@ -88,21 +101,16 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
         
         // Gentle horizontal drift (data stream)
         const driftSpeed = isHardBand ? 0.3 : 0.15;
-        let currentOrigX = originalPositions[i3] + time * driftSpeed;
+        let currentOrigX = originalPositions[i3] + (time * driftSpeed);
         
-        // Wrap around seamlessly
-        if (currentOrigX > 8) {
-           currentOrigX = -8 + (currentOrigX % 8);
-        }
+        // Wrap around seamlessly over the [-8, 8] range (width = 16)
+        currentOrigX = ((currentOrigX + 8) % 16 + 16) % 16 - 8;
         
         // Data wave effect
         const waveAmp = isHardBand ? 0.06 : 0.02;
         const waveY = Math.sin(time * 1.5 + currentOrigX * 2) * waveAmp;
         
-        // Strict balloon mouse interaction
-        // Map pointer to wider world space
-        const mouseWorldX = state.pointer.x * 5.0; 
-        const mouseWorldY = state.pointer.y * 3.5;
+        // Strict balloon mouse interaction (mouseWorldX/Y computed precisely above)
         const dx = currentOrigX - mouseWorldX;
         const dy = originalPositions[i3 + 1] - mouseWorldY;
         const dist = Math.sqrt(dx * dx + dy * dy);
