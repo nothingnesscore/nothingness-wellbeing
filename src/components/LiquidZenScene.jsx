@@ -65,14 +65,14 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
     
     // Smoothly shift colors through ethereal hues
     if (materialRef.current) {
-      const hue = (time * 0.02) % 1; 
-      
       if (darkMode) {
-         // Vibrant glowing amber/gold for true-black AMOLED contrast
-         materialRef.current.color.setHSL(hue, 0.6, 0.6);
+         // Stable AMOLED Gold (no rainbow flicker)
+         const hue = 0.12 + Math.sin(time * 0.3) * 0.01;
+         materialRef.current.color.setHSL(hue, 0.8, 0.55);
       } else {
          // Muted, sandy / warm grey base
-         materialRef.current.color.setHSL(hue, 0.3, 0.4);
+         const hue = 0.12 + Math.sin(time * 0.3) * 0.02;
+         materialRef.current.color.setHSL(hue, 0.4, 0.45);
       }
     }
 
@@ -110,6 +110,10 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
         const waveAmp = isHardBand ? 0.06 : 0.02;
         const waveY = Math.sin(time * 1.5 + currentOrigX * 2) * waveAmp;
         
+        // Z-curve so they shrink and fade into the background at edges
+        const distFromCenter = Math.abs(currentOrigX);
+        const curveZ = -Math.pow(distFromCenter / 3.0, 2);
+        
         // Strict balloon mouse interaction (mouseWorldX/Y computed precisely above)
         const dx = currentOrigX - mouseWorldX;
         const dy = originalPositions[i3 + 1] - mouseWorldY;
@@ -138,11 +142,11 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
            const activeWaveZ = (Math.random() - 0.5) * 2;
            positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], currentOrigX + pullX + activeWaveX, speeds[i] * 3.0);
            positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + pullY + activeWaveY, speeds[i] * 3.0);
-           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], originalPositions[i3 + 2] + pullZ + activeWaveZ, speeds[i] * 3.0);
+           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], curveZ + pullZ + activeWaveZ, speeds[i] * 3.0);
         } else {
            positionsAttr.array[i3] = THREE.MathUtils.lerp(positionsAttr.array[i3], currentOrigX + pullX, speeds[i] * 4.0);
            positionsAttr.array[i3 + 1] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 1], originalPositions[i3 + 1] + waveY + pullY, speeds[i] * 4.0);
-           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], pullZ, speeds[i] * 4.0);
+           positionsAttr.array[i3 + 2] = THREE.MathUtils.lerp(positionsAttr.array[i3 + 2], curveZ + pullZ, speeds[i] * 4.0);
         }
       }
       positionsAttr.needsUpdate = true;

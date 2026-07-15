@@ -387,7 +387,7 @@ const App = () => {
             <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
-              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-transform duration-500 group-hover:scale-110">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110 mx-auto">
                 <Calendar className="w-7 h-7 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]" />
               </div>
               
@@ -402,7 +402,7 @@ const App = () => {
             <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
-              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-transform duration-500 group-hover:scale-110">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110 mx-auto">
                 <Mail className="w-7 h-7 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]" />
               </div>
               
