@@ -165,7 +165,7 @@ const App = () => {
           </h1>
           <div className="w-10 h-0.5 bg-gradient-to-r from-stone-400 to-transparent mx-auto mb-8"></div>
           <h2 className="text-2xl md:text-3xl font-light mb-6">Coming Back Soon</h2>
-          <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mb-8 leading-relaxed">
+          <p className="text-stone-600 dark:text-slate-300 mb-8 leading-relaxed">
             We're making some improvements to serve you better. Thank you for your patience.
           </p>
           <p className="text-sm text-stone-500 dark:text-slate-400 mb-6">
@@ -349,7 +349,7 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Counselling</h3>
             <div className="zen-line"></div>
-            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+            <p className="text-stone-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
               Non-clinical counselling that focuses on the person and respects your experience without judging you. Sessions that are tailored to your needs, either online or in person. Meet yourself with kindness.
             </p>
           </div>
@@ -387,7 +387,7 @@ const App = () => {
             <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
-              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110 mx-auto">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
                 <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
               </div>
               
@@ -402,7 +402,7 @@ const App = () => {
             <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
-              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110 mx-auto">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
                 <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
               </div>
               
@@ -432,7 +432,7 @@ const App = () => {
             <h4 className="text-lg md:text-xl font-light mb-3">Book Your First Session</h4>
             <p className="text-xs text-stone-500 dark:text-slate-400 mb-6 italic max-w-md mx-auto">💡 <strong>Quick Tip:</strong> Use WhatsApp (+91 82402 13971) for fastest response, or call +91 89024 60513 anytime.</p>
             <button
-              onClick={() => setIsBursting(true)}
+              
               data-cal-link={selectedCounselling === 'online' ? 'nothingness-wb/online' : 'nothingness-wb/in-person'}
               data-cal-origin="https://cal.com"
               data-cal-config={JSON.stringify({ 
@@ -462,7 +462,7 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Psychology Tutoring</h3>
             <div className="zen-line"></div>
-            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+            <p className="text-stone-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
               Non-clinical psychology tutoring for <strong>Class XI onwards</strong>—high school, undergraduate, postgraduate, and beyond. 
               Building understanding from the ground up. Learning as dialogue.
             </p>
@@ -487,7 +487,7 @@ const App = () => {
               </div>
               <div>
                 <h4 className="text-base md:text-lg font-medium mb-4">How We Work Together</h4>
-                <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] text-xs md:text-sm leading-relaxed">
+                <p className="text-stone-600 dark:text-slate-300 text-xs md:text-sm leading-relaxed">
                   Get in touch to discuss your learning goals, current curriculum, and pace. Whether you're a high school student preparing for boards, a college student deepening your understanding, or a postgraduate exploring research—tutoring sessions are designed around what you need, not a template. We explore psychology concepts through dialogue, examples, and practice. We build a learning relationship that respects your journey at every stage.
                 </p>
               </div>
@@ -496,9 +496,9 @@ const App = () => {
 
           {/* Tutoring CTA */}
           <div className="flex flex-col items-center justify-center p-8 md:p-12 glass-card rounded-2xl w-full text-center">
-            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mb-4 text-sm md:text-base">Ready to explore Psychology together?</p>
+            <p className="text-stone-600 dark:text-slate-300 mb-4 text-sm md:text-base">Ready to explore Psychology together?</p>
             <div className="flex flex-col gap-4 items-center">
-              <a href="https://wa.me/918240213971?text=Hello%21%20I%27m%20interested%20in%20psychology%20tuitions%2E%20Could%20we%20discuss%20how%20it%20might%20work%3F" target="_blank" rel="noopener noreferrer" onClick={() => setIsBursting(true)} className="button-glass inline-flex items-center gap-2 text-sm md:text-base px-6 py-3 rounded-full font-medium">
+              <a href="https://wa.me/918240213971?text=Hello%21%20I%27m%20interested%20in%20psychology%20tuitions%2E%20Could%20we%20discuss%20how%20it%20might%20work%3F" target="_blank" rel="noopener noreferrer"  className="button-glass inline-flex items-center gap-2 text-sm md:text-base px-6 py-3 rounded-full font-medium">
                 💬 WhatsApp / Call
               </a>
               <p className="text-xs text-stone-500 dark:text-slate-400">
@@ -518,41 +518,44 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Resources & Learning</h3>
             <div className="zen-line"></div>
-            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+            <p className="text-stone-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
               Free and open materials—videos, writing, and reflections to support your journey. Coming soon.
             </p>
           </div>
 
           {/* Resource Cards */}
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            <div className="resource-card hover-lift glass-card">
+            <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="icon-wrapper">
                 <Video className="w-7 h-7" />
               </div>
               <h4 className="text-base md:text-lg font-medium mb-2">YouTube Channel</h4>
-              <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] text-xs md:text-sm mb-6 leading-relaxed">
+              <p className="text-stone-600 dark:text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
                 Video reflections, guided meditations, and teachings on psychology, counselling, and well-being.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
             </div>
 
-            <div className="resource-card hover-lift glass-card">
+            <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="icon-wrapper">
                 <FileText className="w-7 h-7" />
               </div>
               <h4 className="text-base md:text-lg font-medium mb-2">Blog & Writing</h4>
-              <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] text-xs md:text-sm mb-6 leading-relaxed">
+              <p className="text-stone-600 dark:text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
                 Thoughts on person-centred practice, psychology, and the deeper aspects of healing and presence.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
             </div>
 
-            <div className="resource-card hover-lift glass-card">
+            <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="icon-wrapper">
                 <BookOpen className="w-7 h-7" />
               </div>
               <h4 className="text-base md:text-lg font-medium mb-2">Learning Materials</h4>
-              <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] text-xs md:text-sm mb-6 leading-relaxed">
+              <p className="text-stone-600 dark:text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
                 Curated articles, frameworks, research guides, and resources for independent study.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
@@ -567,7 +570,7 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Frequently Asked Questions</h3>
             <div className="zen-line"></div>
-            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+            <p className="text-stone-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
               Answers to some common questions about our practice.
             </p>
           </div>
