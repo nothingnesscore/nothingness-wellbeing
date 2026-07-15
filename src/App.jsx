@@ -165,20 +165,20 @@ const App = () => {
           </h1>
           <div className="w-10 h-0.5 bg-gradient-to-r from-stone-400 to-transparent mx-auto mb-8"></div>
           <h2 className="text-2xl md:text-3xl font-light mb-6">Coming Back Soon</h2>
-          <p className="text-stone-600 dark:text-slate-300 mb-8 leading-relaxed">
+          <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mb-8 leading-relaxed">
             We're making some improvements to serve you better. Thank you for your patience.
           </p>
           <p className="text-sm text-stone-500 dark:text-slate-400 mb-6">
             In the meantime, feel free to reach out:
           </p>
           <div className="mt-6 space-y-2">
-            <a href="https://wa.me/918240213971" target="_blank" rel="noopener noreferrer" className="block text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50 transition py-2 px-4 rounded-lg hover:bg-stone-100">
+            <a href="https://wa.me/918240213971" target="_blank" rel="noopener noreferrer" className="block text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50 transition py-2 px-4 rounded-lg hover:bg-stone-100">
               💬 WhatsApp: +91 82402 13971 (Preferred)
             </a>
-            <a href="tel:+918902460513" className="block text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50 transition py-2 px-4 rounded-lg hover:bg-stone-100">
+            <a href="tel:+918902460513" className="block text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50 transition py-2 px-4 rounded-lg hover:bg-stone-100">
               📞 Call: +91 89024 60513
             </a>
-            <a href="mailto:circle5.nothingness@proton.me" className="block text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50 transition py-2 px-4 rounded-lg hover:bg-stone-100">
+            <a href="mailto:circle5.nothingness@proton.me" className="block text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50 transition py-2 px-4 rounded-lg hover:bg-stone-100">
               📧 circle5.nothingness@proton.me
             </a>
           </div>
@@ -205,9 +205,9 @@ const App = () => {
           {/* Desktop Navigation + Dark Mode Toggle */}
           <div className="hidden md:flex gap-6 items-center">
             <div className={`flex gap-8 transition-all duration-300 ${scrolled ? 'text-xs' : 'text-sm'}`}>
-              <a href="#counselling" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50'} transition`}>Counselling</a>
-              <a href="#tutoring" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50'} transition`}>Psychology Tutoring</a>
-              <a href="#resources" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50'} transition`}>Resources</a>
+              <a href="#counselling" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'} transition`}>Counselling</a>
+              <a href="#tutoring" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'} transition`}>Psychology Tutoring</a>
+              <a href="#resources" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'} transition`}>Resources</a>
             </div>
             
             {/* Theme Mode Selector */}
@@ -266,9 +266,9 @@ const App = () => {
               className={`p-2 rounded-lg transition ${darkMode ? 'hover:bg-slate-800' : 'hover:bg-stone-100'}`}
             >
               {mobileMenuOpen ? (
-                <X className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`} />
+                <X className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`} />
               ) : (
-                <Menu className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`} />
+                <Menu className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`} />
               )}
             </button>
           </div>
@@ -281,21 +281,21 @@ const App = () => {
               <a 
                 href="#counselling" 
                 onClick={() => setMobileMenuOpen(false)}
-                className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50'}`}
+                className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'}`}
               >
                 Counselling
               </a>
               <a 
                 href="#tutoring" 
                 onClick={() => setMobileMenuOpen(false)}
-                className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50'}`}
+                className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'}`}
               >
                 Psychology Tutoring
               </a>
               <a 
                 href="#resources" 
                 onClick={() => setMobileMenuOpen(false)}
-                className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50'}`}
+                className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'}`}
               >
                 Resources
               </a>
@@ -349,7 +349,7 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Counselling</h3>
             <div className="zen-line"></div>
-            <p className="text-stone-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
               Non-clinical counselling that focuses on the person and respects your experience without judging you. Sessions that are tailored to your needs, either online or in person. Meet yourself with kindness.
             </p>
           </div>
@@ -388,7 +388,7 @@ const App = () => {
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-transform duration-500 group-hover:scale-110">
-                <Calendar className="w-7 h-7 text-stone-600 dark:text-slate-300" />
+                <Calendar className="w-7 h-7 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]" />
               </div>
               
               <h4 className="text-lg md:text-xl font-medium mb-4">Flexible Scheduling</h4>
@@ -403,7 +403,7 @@ const App = () => {
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-transform duration-500 group-hover:scale-110">
-                <Mail className="w-7 h-7 text-stone-600 dark:text-slate-300" />
+                <Mail className="w-7 h-7 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]" />
               </div>
               
               <h4 className="text-lg md:text-xl font-medium mb-4">Personalised Approach</h4>
@@ -417,10 +417,10 @@ const App = () => {
           {selectedCounselling === 'inperson' && (
             <div className="glass-card p-6 rounded-2xl mb-10 fade-in">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-stone-600 dark:text-slate-300 flex-shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium text-stone-900 dark:text-slate-50 text-sm md:text-base">Kolkata, Hazra More, Kalighat</p>
-                  <p className={`text-xs md:text-sm mt-1 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`}>Near Kalighat Fire Station, 700026</p>
+                  <p className={`text-xs md:text-sm mt-1 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>Near Kalighat Fire Station, 700026</p>
                   <p className="text-xs text-stone-500 dark:text-slate-400 mt-2 italic">(Exact location confirmed upon booking)</p>
                 </div>
               </div>
@@ -462,7 +462,7 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Psychology Tutoring</h3>
             <div className="zen-line"></div>
-            <p className="text-stone-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
               Non-clinical psychology tutoring for <strong>Class XI onwards</strong>—high school, undergraduate, postgraduate, and beyond. 
               Building understanding from the ground up. Learning as dialogue.
             </p>
@@ -476,7 +476,7 @@ const App = () => {
                   <BookOpen className="w-5 h-5" />
                   What We Cover
                 </h4>
-                <ul className="text-stone-600 dark:text-slate-300 space-y-2 text-xs md:text-sm leading-relaxed">
+                <ul className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] space-y-2 text-xs md:text-sm leading-relaxed">
                   <li>• Psychology for all levels: Class XI, XII, Undergrad, Postgrad & beyond</li>
                   <li>• Board exam preparation & scoring strategies</li>
                   <li>• College & university coursework support</li>
@@ -487,7 +487,7 @@ const App = () => {
               </div>
               <div>
                 <h4 className="text-base md:text-lg font-medium mb-4">How We Work Together</h4>
-                <p className="text-stone-600 dark:text-slate-300 text-xs md:text-sm leading-relaxed">
+                <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] text-xs md:text-sm leading-relaxed">
                   Get in touch to discuss your learning goals, current curriculum, and pace. Whether you're a high school student preparing for boards, a college student deepening your understanding, or a postgraduate exploring research—tutoring sessions are designed around what you need, not a template. We explore psychology concepts through dialogue, examples, and practice. We build a learning relationship that respects your journey at every stage.
                 </p>
               </div>
@@ -496,7 +496,7 @@ const App = () => {
 
           {/* Tutoring CTA */}
           <div className="flex flex-col items-center justify-center p-8 md:p-12 glass-card rounded-2xl w-full text-center">
-            <p className="text-stone-600 dark:text-slate-300 mb-4 text-sm md:text-base">Ready to explore Psychology together?</p>
+            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mb-4 text-sm md:text-base">Ready to explore Psychology together?</p>
             <div className="flex flex-col gap-4 items-center">
               <a href="https://wa.me/918240213971?text=Hello%21%20I%27m%20interested%20in%20psychology%20tuitions%2E%20Could%20we%20discuss%20how%20it%20might%20work%3F" target="_blank" rel="noopener noreferrer" onClick={() => setIsBursting(true)} className="button-glass inline-flex items-center gap-2 text-sm md:text-base px-6 py-3 rounded-full font-medium">
                 💬 WhatsApp / Call
@@ -518,7 +518,7 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Resources & Learning</h3>
             <div className="zen-line"></div>
-            <p className="text-stone-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
               Free and open materials—videos, writing, and reflections to support your journey. Coming soon.
             </p>
           </div>
@@ -530,7 +530,7 @@ const App = () => {
                 <Video className="w-7 h-7" />
               </div>
               <h4 className="text-base md:text-lg font-medium mb-2">YouTube Channel</h4>
-              <p className="text-stone-600 dark:text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
+              <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] text-xs md:text-sm mb-6 leading-relaxed">
                 Video reflections, guided meditations, and teachings on psychology, counselling, and well-being.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
@@ -541,7 +541,7 @@ const App = () => {
                 <FileText className="w-7 h-7" />
               </div>
               <h4 className="text-base md:text-lg font-medium mb-2">Blog & Writing</h4>
-              <p className="text-stone-600 dark:text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
+              <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] text-xs md:text-sm mb-6 leading-relaxed">
                 Thoughts on person-centred practice, psychology, and the deeper aspects of healing and presence.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
@@ -552,7 +552,7 @@ const App = () => {
                 <BookOpen className="w-7 h-7" />
               </div>
               <h4 className="text-base md:text-lg font-medium mb-2">Learning Materials</h4>
-              <p className="text-stone-600 dark:text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
+              <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] text-xs md:text-sm mb-6 leading-relaxed">
                 Curated articles, frameworks, research guides, and resources for independent study.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
@@ -567,7 +567,7 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-light mb-3">Frequently Asked Questions</h3>
             <div className="zen-line"></div>
-            <p className="text-stone-600 dark:text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+            <p className="text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
               Answers to some common questions about our practice.
             </p>
           </div>
@@ -589,7 +589,7 @@ const App = () => {
                   <div className="faq-answer-inner">
                     <div className="px-5 md:px-6 pb-6 pt-0">
                       <div className="w-full h-px bg-stone-200 dark:bg-white/10 mb-4"></div>
-                      <p className={`text-sm md:text-base leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`}>
+                      <p className={`text-sm md:text-base leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
                         {item.answer}
                       </p>
                     </div>
@@ -607,14 +607,14 @@ const App = () => {
           <div className="text-center mb-12">
             <h3 className={`text-3xl md:text-4xl font-light mb-3 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>What Others Say</h3>
             <div className="zen-line"></div>
-            <p className={`${darkMode ? 'text-slate-400' : 'text-stone-600 dark:text-slate-300'} mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base`}>
+            <p className={`${darkMode ? 'text-slate-400' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'} mt-6 max-w-2xl mx-auto leading-relaxed text-sm md:text-base`}>
               Real experiences from people on their journey towards clarity and presence.
             </p>
           </div>
 
           <div className="text-center">
             <div className="inline-block px-8 py-6 rounded-2xl glass-card">
-              <p className={`${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'} text-sm md:text-base italic`}>
+              <p className={`${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'} text-sm md:text-base italic`}>
                 We're gathering real feedback from our clients. Check back soon to see what they have to say.
               </p>
             </div>
@@ -623,12 +623,12 @@ const App = () => {
       </section>
 
       {/* Footer */}
-      <footer className="mt-12 py-12 border-t border-stone-200 dark:border-white/10 transition-colors duration-500 relative z-10">
+      <footer className="mt-12 py-12 border-t border-stone-200 dark:border-white/10 bg-white/20 dark:bg-black/30 backdrop-blur-xl transition-colors duration-500 relative z-10">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
               <h4 className={`font-light text-base md:text-lg mb-4 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>Nothingness Well-Being</h4>
-              <p className={`text-xs md:text-sm leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`}>
+              <p className={`text-xs md:text-sm leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
                 Non-clinical counselling and psychology tutoring that focuses on the person. A practice based on being present, being clear, and making authentic connections.
               </p>
             </div>
@@ -636,17 +636,17 @@ const App = () => {
               <h4 className={`font-light text-base md:text-lg mb-4 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>Contact</h4>
               <div className="mb-3">
                 <p className={`text-xs mb-1 ${darkMode ? 'text-slate-400' : 'text-stone-500 dark:text-slate-400'}`}>Primary Contact</p>
-                <a href="tel:+918902460513" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`}>
+                <a href="tel:+918902460513" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
                   📞 +91 89024 60513 (Calls & Messages)
                 </a>
               </div>
               <div className="mb-3">
                 <p className={`text-xs mb-1 ${darkMode ? 'text-slate-400' : 'text-stone-500 dark:text-slate-400'}`}>WhatsApp Preferred</p>
-                <a href="https://wa.me/918240213971" target="_blank" rel="noopener noreferrer" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`}>
+                <a href="https://wa.me/918240213971" target="_blank" rel="noopener noreferrer" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
                   💬 +91 82402 13971 (WhatsApp Direct)
                 </a>
               </div>
-              <a href="mailto:circle5.nothingness@proton.me" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 mb-3 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`}>
+              <a href="mailto:circle5.nothingness@proton.me" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 mb-3 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
                 <Mail className="w-4 h-4 flex-shrink-0" />
                 circle5.nothingness@proton.me
               </a>
@@ -656,7 +656,7 @@ const App = () => {
             </div>
             <div>
               <h4 className={`font-light text-base md:text-lg mb-4 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>Location</h4>
-              <p className={`text-xs md:text-sm leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300'}`}>
+              <p className={`text-xs md:text-sm leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
                 Near Kalighat Fire Station<br />
                 Kolkata, India 700026<br />
               </p>
