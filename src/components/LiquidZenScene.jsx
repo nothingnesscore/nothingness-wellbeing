@@ -22,10 +22,9 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
   }, []);
 
   // Pre-calculate Animus-style horizontal band positions
-  const [positions, originalPositions, randomDirections, speeds] = useMemo(() => {
+  const [positions, originalPositions, speeds] = useMemo(() => {
     const pos = new Float32Array(count * 3);
     const orig = new Float32Array(count * 3);
-    const dirs = new Float32Array(count * 3);
     const speeds = new Float32Array(count);
     
     const numLines = 80;
@@ -50,16 +49,11 @@ const ParticleCloud = ({ darkMode, isBursting }) => {
       orig[i3 + 1] = y;
       orig[i3 + 2] = z;
       
-      // Random direction for bursting/scattering
-      dirs[i3] = x * 2;
-      dirs[i3 + 1] = y * 2;
-      dirs[i3 + 2] = (Math.random() - 0.5) * 5;
-      
       // Random speed for organic spring feel
       speeds[i] = 0.02 + Math.random() * 0.03;
     }
     
-    return [pos, orig, dirs, speeds];
+    return [pos, orig, speeds];
   }, [count]);
 
   useFrame((state) => {
