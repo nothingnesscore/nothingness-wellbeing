@@ -135,7 +135,7 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="mobile-menu md:hidden absolute top-full left-0 right-0 mt-4 mx-4 bg-white/95 dark:bg-[#050505]/95 backdrop-blur-2xl border border-stone-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50">
           <div className="max-w-5xl mx-auto px-6 py-4 flex flex-col gap-3">
-            {tabs.map((tab) => (
+            {tabs.filter(tab => tab.id !== 'blog').map((tab) => (
               <React.Fragment key={tab.id}>
                 {isHome ? (
                   <button
@@ -167,15 +167,6 @@ export function Navbar() {
             {isHome && (
               <>
                 <div className={`h-px w-full my-1 ${darkMode ? 'bg-white/10' : 'bg-stone-200'}`}></div>
-                <Link
-                  to="/blog"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`text-sm transition py-2 font-medium ${
-                    darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'
-                  }`}
-                >
-                  Blog
-                </Link>
                 <Link
                   to="/app"
                   onClick={() => setMobileMenuOpen(false)}
