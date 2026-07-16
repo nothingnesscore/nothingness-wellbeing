@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookOpen } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+
 
 export function Blog() {
 
