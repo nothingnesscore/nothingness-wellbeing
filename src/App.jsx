@@ -3,7 +3,7 @@ import { Mail, MapPin, Calendar, BookOpen, Video, FileText, Menu, X, Moon, Sun }
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import { getCalApi } from "@calcom/embed-react";
-// import LiquidZenScene from './components/LiquidZenScene';
+// // import LiquidZenScene from './components/LiquidZenScene';
 import { AnimatedAccordion } from './components/animations/AnimatedAccordion';
 import { GlowingCard } from './components/animations/GlowingCard';
 import { TabBar } from './components/animations/TabBar';
@@ -13,7 +13,6 @@ const App = () => {
   const [selectedCounselling, setSelectedCounselling] = useState('online');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  // const [isBursting, setIsBursting] = useState(false);
 
   const [expandedFaq, setExpandedFaq] = useState(null);
   const [activeTab, setActiveTab] = useState('counselling');
@@ -68,11 +67,11 @@ const App = () => {
   }, []);
   
   // Reintegrate cloud when window regains focus (e.g. returning from WhatsApp)
-  useEffect(() => {
-    const handleFocus = () => setIsBursting(false);
-    window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
-  }, []);
+  // useEffect(() => {
+  //   const handleFocus = () => setIsBursting(false);
+  //   window.addEventListener('focus', handleFocus);
+  //   return () => window.removeEventListener('focus', handleFocus);
+  // }, []);
 
   const scrollTimeoutRef = React.useRef(null);
   const [darkModePreference, setDarkModePreference] = useState(() => {
@@ -455,7 +454,6 @@ const App = () => {
             <h4 className="text-lg md:text-xl font-light mb-3">Book Your First Session</h4>
             <p className="text-xs text-stone-500 dark:text-slate-400 mb-6 italic max-w-md mx-auto">💡 <strong>Quick Tip:</strong> Use WhatsApp (+91 82402 13971) for fastest response, or call +91 89024 60513 anytime.</p>
             <button
-              onClick={() => setIsBursting(true)}
               data-cal-link={selectedCounselling === 'online' ? 'nothingness-wb/online' : 'nothingness-wb/in-person'}
               data-cal-origin="https://cal.com"
               data-cal-config={JSON.stringify({ 
@@ -521,7 +519,7 @@ const App = () => {
           <div className="flex flex-col items-center justify-center p-8 md:p-12 glass-card rounded-2xl w-full text-center">
             <p className="text-stone-600 dark:text-slate-300 mb-4 text-sm md:text-base">Ready to explore Psychology together?</p>
             <div className="flex flex-col gap-4 items-center">
-              <a href="https://wa.me/918240213971?text=Hello%21%20I%27m%20interested%20in%20psychology%20tuitions%2E%20Could%20we%20discuss%20how%20it%20might%20work%3F" target="_blank" rel="noopener noreferrer" onClick={() => setIsBursting(true)} className="button-glass inline-flex items-center gap-2 text-sm md:text-base px-6 py-3 rounded-full font-medium">
+              <a href="https://wa.me/918240213971?text=Hello%21%20I%27m%20interested%20in%20psychology%20tuitions%2E%20Could%20we%20discuss%20how%20it%20might%20work%3F" target="_blank" rel="noopener noreferrer" className="button-glass inline-flex items-center gap-2 text-sm md:text-base px-6 py-3 rounded-full font-medium">
                 💬 WhatsApp / Call
               </a>
               <p className="text-xs text-stone-500 dark:text-slate-400">
