@@ -3,7 +3,7 @@ import { Mail, MapPin, Calendar, BookOpen, Video, FileText, Menu, X, Moon, Sun }
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import { getCalApi } from "@calcom/embed-react";
-import LiquidZenScene from './components/LiquidZenScene';
+// import LiquidZenScene from './components/LiquidZenScene';
 import { AnimatedAccordion } from './components/animations/AnimatedAccordion';
 import { GlowingCard } from './components/animations/GlowingCard';
 import { TabBar } from './components/animations/TabBar';
@@ -13,7 +13,7 @@ const App = () => {
   const [selectedCounselling, setSelectedCounselling] = useState('online');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isBursting, setIsBursting] = useState(false);
+  // const [isBursting, setIsBursting] = useState(false);
 
   const [expandedFaq, setExpandedFaq] = useState(null);
   const [activeTab, setActiveTab] = useState('counselling');
@@ -194,9 +194,12 @@ const App = () => {
 
   return (
     <div className="relative">
+      {/* 
       <div className="fixed inset-0 z-0">
         <LiquidZenScene darkMode={darkMode} isBursting={isBursting} />
       </div>
+      */}
+
 
 
       <div className={`relative z-10 min-h-screen transition-colors duration-500 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>
@@ -406,7 +409,7 @@ const App = () => {
 
           {/* Session Info Cards */}
           <div className="grid md:grid-cols-2 gap-6 md:gap-10 mb-12">
-            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
+            <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
                 <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
@@ -420,7 +423,7 @@ const App = () => {
               </p>
             </GlowingCard>
 
-            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
+            <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
                 <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
@@ -545,7 +548,7 @@ const App = () => {
 
           {/* Resource Cards */}
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
+            <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               <div className="icon-wrapper">
                 <Video className="w-7 h-7" />
               </div>
@@ -556,7 +559,7 @@ const App = () => {
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
             </GlowingCard>
 
-            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
+            <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               <div className="icon-wrapper">
                 <FileText className="w-7 h-7" />
               </div>
@@ -567,7 +570,7 @@ const App = () => {
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
             </GlowingCard>
 
-            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
+            <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               <div className="icon-wrapper">
                 <BookOpen className="w-7 h-7" />
               </div>

@@ -35,10 +35,10 @@ function TextAnimation({ text }) {
             key={id}
             layout="position"
             layoutId={id}
-            initial={{ opacity: 0, filter: "blur(4px)", scale: 0.8, y: 10 }}
-            animate={{ opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }}
-            exit={{ opacity: 0, filter: "blur(4px)", scale: 0.8, y: -10 }}
-            transition={{ ease: "easeInOut", duration: 0.6 }}
+            initial={{ opacity: 0, filter: "blur(2px)", scale: 0.8 }}
+            animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+            exit={{ opacity: 0, filter: "blur(2px)", scale: 0.8 }}
+            transition={{ ease: "easeInOut", duration: 0.4 }}
           >
             {char === " " ? "\u00A0" : char}
           </motion.span>
