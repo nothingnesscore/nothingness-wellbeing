@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
-export function TabBar({ tabs, activeTab, onTabClick, darkMode, scrolled }) {
+export function TabBar({ tabs, activeTab, onTabClick, darkMode, scrolled, asLink = false }) {
   return (
     <div className={`flex gap-1 p-1.5 rounded-[20px] transition-all duration-300 backdrop-blur-md border ${
       darkMode ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/5'
@@ -9,16 +10,8 @@ export function TabBar({ tabs, activeTab, onTabClick, darkMode, scrolled }) {
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         
-        return (
-          <button
-            key={tab.id}
-            onClick={() => onTabClick(tab.id)}
-            className={`relative px-4 py-1.5 rounded-full transition-colors duration-300 ${
-              isActive 
-                ? (darkMode ? 'text-[#050505]' : 'text-stone-900') 
-                : (darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900')
-            } font-medium z-10`}
-          >
+        const content = (
+          <>
             {isActive && (
               <motion.div
                 layoutId="activeTabPill"
@@ -36,6 +29,30 @@ export function TabBar({ tabs, activeTab, onTabClick, darkMode, scrolled }) {
               </motion.div>
             )}
             {tab.label}
+          </>
+        );
+
+        const className = `relative px-4 py-1.5 rounded-full transition-colors duration-300 ${
+          isActive 
+            ? (darkMode ? 'text-[#050505]' : 'text-stone-900') 
+            : (darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900')
+        } font-medium z-10`;
+
+        if (asLink) {
+          return (
+            <Link key={tab.id} to={tab.path} className={className}>
+              {content}
+            </Link>
+          );
+        }
+
+        return (
+          <button
+            key={tab.id}
+            onClick={() => onTabClick(tab.id)}
+            className={className}
+          >
+            {content}
           </button>
         );
       })}
