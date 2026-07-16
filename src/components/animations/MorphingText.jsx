@@ -13,7 +13,7 @@ export function MorphingTextAnimation({ texts }) {
   }, [texts]);
 
   return (
-    <div className="relative inline-block overflow-hidden h-[1.5em] w-full text-center md:text-left">
+    <div className="relative inline-block overflow-hidden h-[1.5em] w-full text-center">
       <TextAnimation text={texts[index]} />
     </div>
   );

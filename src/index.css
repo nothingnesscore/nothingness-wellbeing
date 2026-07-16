@@ -175,24 +175,23 @@
     overflow: hidden;
   }
 
-  .hero-section::before {
-    content: '';
+  .site-backdrop {
     position: absolute;
     top: -50%;
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at center, rgba(168, 153, 104, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.03) 0%, transparent 30%);
-    animation: slowLiquidMove 20s ease-in-out infinite alternate;
+    background: radial-gradient(circle at center, rgba(168, 153, 104, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 80% 20%, rgba(168, 153, 104, 0.05) 0%, transparent 35%);
+    animation: slowLiquidMove 25s ease-in-out infinite alternate;
     z-index: 0;
     will-change: transform;
     transform: translateZ(0);
   }
 
-  .dark .hero-section::before {
-    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 30%);
+  .dark .site-backdrop {
+    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 35%);
   }
 
   .glass-nav {
@@ -238,11 +237,22 @@
     will-change: transform, background-color, box-shadow;
   }
 
+  .button-glass:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.7);
+  }
+
   .dark .button-glass {
     background: rgba(212, 175, 55, 0.8);
     border-color: rgba(212, 175, 55, 1);
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
     color: #050505;
+  }
+
+  .dark .button-glass:hover {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    background: rgba(212, 175, 55, 1);
   }
 
   .toggle-container {
@@ -286,13 +296,13 @@
   }
 
   .toggle-inactive {
-    background: rgba(0,0,0,0.04);
-    color: #78716c;
+    background: rgba(0,0,0,0.08);
+    color: #57534e;
   }
 
   .dark .toggle-inactive {
-    background: rgba(255,255,255,0.06);
-    color: #a8a29e;
+    background: rgba(255,255,255,0.1);
+    color: #d6d3d1;
   }
 
   .toggle-inactive:hover {

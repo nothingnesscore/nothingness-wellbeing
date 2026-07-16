@@ -34,7 +34,7 @@ export function TabBar({ tabs, activeTab, onTabClick, darkMode, scrolled, asLink
 
         const className = `relative px-4 py-1.5 rounded-full transition-colors duration-300 ${
           isActive 
-            ? (darkMode ? 'text-[#050505]' : 'text-stone-900') 
+            ? (darkMode ? 'text-white' : 'text-stone-900') 
             : (darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900')
         } font-medium z-10`;
 

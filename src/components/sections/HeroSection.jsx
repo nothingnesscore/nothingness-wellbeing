@@ -6,7 +6,7 @@ export function HeroSection() {
   const { darkMode } = useTheme();
 
   return (
-    <section className="hero-section relative min-h-[85vh] md:min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section className="hero-section relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
       <div className="max-w-2xl mx-auto px-6 text-center relative z-10 pointer-events-none mt-20">
         <h2 className={`text-4xl md:text-6xl font-light mb-2 tracking-tight fade-in stagger-1 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>
           Nothingness<br />Well-Being
@@ -26,7 +26,7 @@ export function HeroSection() {
       </div>
 
       {/* High-Quality Spiral Scroll Arrow */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 fade-in stagger-3">
+      <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 z-10 fade-in stagger-3">
         <a href="#counselling" className="flex flex-col items-center justify-center text-stone-400 hover:text-[#a89968] dark:hover:text-[#d4af37] transition-colors duration-300 norse-arrow">
           <svg width="24" height="90" viewBox="0 0 40 120" fill="none" stroke="currentColor" strokeWidth="1" className="transform">
             {/* Elegantly fading tail dots */}

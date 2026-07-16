@@ -14,7 +14,7 @@ export function Navbar() {
   useEffect(() => {
     if (location.pathname === '/blog') setActiveTab('blog');
     else if (location.pathname === '/app') setActiveTab('app');
-    else setActiveTab('home');
+    else setActiveTab('counselling');
   }, [location]);
 
   useEffect(() => {
@@ -25,7 +25,13 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const tabs = [
+  const isHome = location.pathname === '/';
+  
+  const tabs = isHome ? [
+    { id: 'counselling', label: 'Counselling' },
+    { id: 'tutoring', label: 'Psychology Tutoring' },
+    { id: 'resources', label: 'Resources' }
+  ] : [
     { id: 'home', label: 'Home', path: '/' },
     { id: 'blog', label: 'Blog', path: '/blog' },
     { id: 'app', label: 'App', path: '/app' }
@@ -43,10 +49,15 @@ export function Navbar() {
           <TabBar 
             tabs={tabs}
             activeTab={activeTab}
-            onTabClick={() => {}} // Not needed for link wrapper TabBar, but we might need to modify TabBar to accept Links or render them.
+            onTabClick={(id) => {
+              if (isHome) {
+                setActiveTab(id);
+                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
             darkMode={darkMode}
             scrolled={scrolled}
-            asLink={true}
+            asLink={!isHome}
           />
           
           {/* Theme Mode Selector */}

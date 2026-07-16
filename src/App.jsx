@@ -22,7 +22,10 @@ const AppContent = () => {
   }, []);
 
   return (
-    <div className={`relative min-h-screen transition-colors duration-500 ${darkMode ? 'text-slate-50 bg-[#050505]' : 'text-stone-900 bg-[#faf8f3]'}`}>
+    <div className={`relative min-h-screen transition-colors duration-500 overflow-hidden ${darkMode ? 'text-slate-50 bg-[#050505]' : 'text-stone-900 bg-[#faf8f3]'}`}>
+      {/* Site-wide subtle animated backdrop for glassmorphism */}
+      <div className="fixed inset-0 z-0 pointer-events-none site-backdrop" />
+      
       <Navbar />
       <main className="relative z-10 pt-16">
         <Routes>
