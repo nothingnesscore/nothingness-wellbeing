@@ -4,6 +4,10 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import { getCalApi } from "@calcom/embed-react";
 import LiquidZenScene from './components/LiquidZenScene';
+import { AnimatedAccordion } from './components/animations/AnimatedAccordion';
+import { GlowingCard } from './components/animations/GlowingCard';
+import { TabBar } from './components/animations/TabBar';
+import { MorphingTextAnimation } from './components/animations/MorphingText';
 
 const App = () => {
   const [selectedCounselling, setSelectedCounselling] = useState('online');
@@ -12,6 +16,7 @@ const App = () => {
   const [isBursting, setIsBursting] = useState(false);
 
   const [expandedFaq, setExpandedFaq] = useState(null);
+  const [activeTab, setActiveTab] = useState('counselling');
 
   const toggleFaq = (index) => {
     setExpandedFaq(expandedFaq === index ? null : index);
@@ -204,11 +209,20 @@ const App = () => {
           
           {/* Desktop Navigation + Dark Mode Toggle */}
           <div className="hidden md:flex gap-6 items-center">
-            <div className={`flex gap-8 transition-all duration-300 ${scrolled ? 'text-xs' : 'text-sm'}`}>
-              <a href="#counselling" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'} transition`}>Counselling</a>
-              <a href="#tutoring" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'} transition`}>Psychology Tutoring</a>
-              <a href="#resources" className={`${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] hover:text-stone-900 dark:text-slate-50'} transition`}>Resources</a>
-            </div>
+            <TabBar 
+              tabs={[
+                { id: 'counselling', label: 'Counselling' },
+                { id: 'tutoring', label: 'Psychology Tutoring' },
+                { id: 'resources', label: 'Resources' }
+              ]}
+              activeTab={activeTab}
+              onTabClick={(id) => {
+                setActiveTab(id);
+                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              darkMode={darkMode}
+              scrolled={scrolled}
+            />
             
             {/* Theme Mode Selector */}
             <div className={`flex gap-1 p-1 rounded-lg transition ${darkMode ? 'bg-gray-900' : 'bg-stone-100'}`}>
@@ -307,9 +321,17 @@ const App = () => {
       {/* Hero Section */}
       <section className="hero-section relative min-h-[85vh] md:min-h-screen flex flex-col items-center justify-center overflow-hidden">
         <div className="max-w-2xl mx-auto px-6 text-center relative z-10 pointer-events-none mt-20">
-          <h2 className={`text-4xl md:text-6xl font-light mb-4 tracking-tight fade-in stagger-1 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>
+          <h2 className={`text-4xl md:text-6xl font-light mb-2 tracking-tight fade-in stagger-1 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>
             Nothingness<br />Well-Being
           </h2>
+          <div className="h-[2em] mt-2 mb-4 text-lg md:text-xl text-[#a89968] dark:text-[#d4af37] font-medium tracking-wide flex justify-center">
+            <MorphingTextAnimation texts={[
+              "Person-Centred Counselling",
+              "Psychology Tutoring",
+              "A Safe Space To Heal",
+              "Guidance & Learning"
+            ]} />
+          </div>
           <div className="zen-line fade-in stagger-2"></div>
           <p className={`text-base md:text-lg mt-8 leading-relaxed max-w-xl mx-auto font-light fade-in stagger-3 ${darkMode ? 'text-slate-300' : 'text-stone-700 dark:text-slate-200'}`}>
             Non-clinical counselling and psychology tutoring based on being present with the person. A place where the self dissolves down into clarity, healing, and understanding.
@@ -384,8 +406,7 @@ const App = () => {
 
           {/* Session Info Cards */}
           <div className="grid md:grid-cols-2 gap-6 md:gap-10 mb-12">
-            <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
                 <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
@@ -397,10 +418,9 @@ const App = () => {
                   ? 'Book online sessions at times that suit your rhythm. Sessions via video call, with flexibility around your life.'
                   : 'Available for in-person sessions in Kolkata. A calm, welcoming space designed for authentic dialogue.'}
               </p>
-            </div>
+            </GlowingCard>
 
-            <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
                 <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
@@ -410,7 +430,7 @@ const App = () => {
               <p className="text-stone-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
                 Pricing tailored to your circumstances. No one-size-fits-all. Reach out to explore what feels right for you.
               </p>
-            </div>
+            </GlowingCard>
           </div>
 
           {/* Location Info for In-person */}
@@ -525,8 +545,7 @@ const App = () => {
 
           {/* Resource Cards */}
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               <div className="icon-wrapper">
                 <Video className="w-7 h-7" />
               </div>
@@ -535,10 +554,9 @@ const App = () => {
                 Video reflections, guided meditations, and teachings on psychology, counselling, and well-being.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
-            </div>
+            </GlowingCard>
 
-            <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               <div className="icon-wrapper">
                 <FileText className="w-7 h-7" />
               </div>
@@ -547,10 +565,9 @@ const App = () => {
                 Thoughts on person-centred practice, psychology, and the deeper aspects of healing and presence.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
-            </div>
+            </GlowingCard>
 
-            <div className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full group relative overflow-hidden">
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#a89968] dark:via-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <GlowingCard className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
               <div className="icon-wrapper">
                 <BookOpen className="w-7 h-7" />
               </div>
@@ -559,7 +576,7 @@ const App = () => {
                 Curated articles, frameworks, research guides, and resources for independent study.
               </p>
               <button className="button-secondary text-xs md:text-sm cursor-default">Coming Soon</button>
-            </div>
+            </GlowingCard>
           </div>
         </section>
 
@@ -577,28 +594,15 @@ const App = () => {
 
           <div className="max-w-3xl mx-auto space-y-4">
             {faqData.map((item, index) => (
-              <div 
-                key={index} 
-                className="glass-card rounded-2xl overflow-hidden cursor-pointer"
-                onClick={() => toggleFaq(index)}
+              <AnimatedAccordion 
+                key={index}
+                title={item.question}
+                darkMode={darkMode}
+                isOpen={expandedFaq === index}
+                onToggle={() => toggleFaq(index)}
               >
-                <div className="p-5 md:p-6 flex justify-between items-center gap-4">
-                  <h4 className={`text-base md:text-lg font-medium ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>{item.question}</h4>
-                  <div className={`transition-transform duration-300 flex-shrink-0 ${expandedFaq === index ? 'rotate-180' : ''}`}>
-                    <ChevronDown className={`w-5 h-5 ${darkMode ? 'text-slate-400' : 'text-stone-500 dark:text-slate-400'}`} />
-                  </div>
-                </div>
-                <div className={`faq-answer ${expandedFaq === index ? 'open' : ''}`}>
-                  <div className="faq-answer-inner">
-                    <div className="px-5 md:px-6 pb-6 pt-0">
-                      <div className="w-full h-px bg-stone-200 dark:bg-white/10 mb-4"></div>
-                      <p className={`text-sm md:text-base leading-relaxed ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
-                        {item.answer}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                {item.answer}
+              </AnimatedAccordion>
             ))}
           </div>
         </section>
