@@ -45,7 +45,7 @@ export function CounsellingSection() {
       <div className="grid md:grid-cols-2 gap-6 md:gap-10 mb-12">
         <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
           
-          <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
+          <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
             <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
           </div>
           
@@ -59,7 +59,7 @@ export function CounsellingSection() {
 
         <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
           
-          <div className="w-16 h-16 rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
+          <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
             <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
           </div>
           
@@ -85,7 +85,7 @@ export function CounsellingSection() {
       )}
 
       {/* Booking Section */}
-      <div className="mb-8 flex flex-col items-center justify-center p-8 md:p-12 glass-card rounded-2xl w-full text-center">
+      <GlowingCard darkMode={darkMode} className="mb-8 flex flex-col items-center justify-center p-8 md:p-12 glass-card rounded-2xl w-full text-center hover-lift">
         <h4 className="text-lg md:text-xl font-light mb-3">Book Your First Session</h4>
         <p className="text-xs text-stone-500 dark:text-slate-400 mb-6 italic max-w-md mx-auto">💡 <strong>Quick Tip:</strong> Use WhatsApp (+91 82402 13971) for fastest response, or call +91 89024 60513 anytime.</p>
         <button
@@ -99,11 +99,11 @@ export function CounsellingSection() {
               dark: { "cal-brand": "#d4af37", "cal-brand-emphasis": "#b8942d", "cal-bg": "#000000", "cal-bg-muted": "#0a0a0a", "cal-text": "#f1f5f9", "cal-border": "#2d2d2d" }
             }
           })}
-          className="button-glass inline-flex items-center justify-center gap-2 text-sm md:text-base px-8 py-4 rounded-full font-medium"
+          className="button-glass inline-flex items-center justify-center gap-2 text-sm md:text-base px-8 py-4 rounded-full font-medium z-30"
         >
           Open Booking Calendar
         </button>
-      </div>
+      </GlowingCard>
 
       {/* Fallback email contact */}
       <div className="text-center text-xs md:text-sm text-stone-500 dark:text-slate-400 mt-8 mb-4">

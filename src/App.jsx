@@ -10,6 +10,7 @@ import { Footer } from './components/layout/Footer';
 import { Home } from './pages/Home';
 import { Blog } from './pages/Blog';
 import { AppDashboard } from './pages/AppDashboard';
+import { BackgroundAnimation } from './components/animations/BackgroundAnimation';
 
 const AppContent = () => {
   const { darkMode } = useTheme();
@@ -23,8 +24,7 @@ const AppContent = () => {
 
   return (
     <div className={`relative min-h-screen transition-colors duration-500 overflow-hidden ${darkMode ? 'text-slate-50 bg-[#050505]' : 'text-stone-900 bg-[#faf8f3]'}`}>
-      {/* Site-wide subtle animated backdrop for glassmorphism */}
-      <div className="fixed inset-0 z-0 pointer-events-none site-backdrop" />
+      <BackgroundAnimation />
       
       <Navbar />
       <main className="relative z-10 pt-16">

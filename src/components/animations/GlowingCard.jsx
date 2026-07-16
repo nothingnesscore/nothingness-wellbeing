@@ -79,7 +79,7 @@ export function GlowingCard({ children, className = "", darkMode = false }) {
               height: '100%',
               left: 0,
               top: 0,
-              background: `radial-gradient(circle 200px at ${mouseX.get()}px ${mouseY.get()}px, ${darkMode ? 'rgba(212, 175, 55, 0.1)' : 'rgba(168, 153, 104, 0.1)'}, transparent 80%)`,
+              background: `radial-gradient(circle 250px at ${mouseX.get()}px ${mouseY.get()}px, ${darkMode ? 'rgba(212, 175, 55, 0.04)' : 'rgba(168, 153, 104, 0.04)'}, transparent 80%)`,
             }}
           />
         )}

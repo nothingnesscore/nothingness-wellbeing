@@ -172,26 +172,18 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
   }
 
-  .site-backdrop {
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, rgba(168, 153, 104, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 80% 20%, rgba(168, 153, 104, 0.05) 0%, transparent 35%);
-    animation: slowLiquidMove 25s ease-in-out infinite alternate;
-    z-index: 0;
-    will-change: transform;
-    transform: translateZ(0);
+  .animate-blob {
+    animation: blob 25s infinite alternate ease-in-out;
   }
 
-  .dark .site-backdrop {
-    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 35%);
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
   }
 
   .glass-nav {
@@ -222,7 +214,7 @@
   }
 
   .button-glass {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(12px) saturate(120%);
     border: 1px solid rgba(255, 255, 255, 0.8);
     box-shadow: 
@@ -240,19 +232,21 @@
   .button-glass:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.6);
   }
 
   .dark .button-glass {
-    background: rgba(212, 175, 55, 0.8);
-    border-color: rgba(212, 175, 55, 1);
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
-    color: #050505;
+    background: rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.6);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+    color: #e5e5e5;
   }
 
   .dark .button-glass:hover {
     box-shadow: 0 0 25px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-    background: rgba(212, 175, 55, 1);
+    background: rgba(212, 175, 55, 0.4);
+    color: #fff;
+    border-color: rgba(212, 175, 55, 1);
   }
 
   .toggle-container {
@@ -319,4 +313,11 @@
 @keyframes slowLiquidMove {
   0% { transform: translate(0, 0) scale(1) translateZ(0); }
   100% { transform: translate(-3%, 3%) scale(1.05) translateZ(0); }
+}
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
 }
