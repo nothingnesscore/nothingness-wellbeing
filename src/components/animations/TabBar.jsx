@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 export function TabBar({ tabs, activeTab, onTabClick, darkMode, scrolled }) {

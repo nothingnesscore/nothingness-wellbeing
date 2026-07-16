@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, MapPin, Calendar, BookOpen, Video, FileText, Menu, X, Moon, Sun, ChevronDown } from 'lucide-react';
+import { Mail, MapPin, Calendar, BookOpen, Video, FileText, Menu, X, Moon, Sun } from 'lucide-react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import { getCalApi } from "@calcom/embed-react";
