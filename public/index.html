@@ -77,11 +77,11 @@
       "description": "Person-centred counselling and psychology tutoring in Kolkata",
       "url": "https://nothingness-wellbeing.vercel.app",
       "image": "https://nothingness-wellbeing.vercel.app/og-social-banner.png",
-      "telephone": "+91-89024 60513",
-      "email": "circle5.nothingness@proton.me",
+      "telephone": "%REACT_APP_CONTACT_PHONE%",
+      "email": "%REACT_APP_CONTACT_EMAIL%",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Hazra More, Kalighat",
+        "streetAddress": "%REACT_APP_LOCATION%",
         "addressLocality": "Kolkata",
         "addressRegion": "West Bengal",
         "postalCode": "700026",
@@ -91,7 +91,7 @@
       "serviceType": ["Mental Health Counselling", "Psychology Tutoring"],
       "priceRange": "$$",
       "sameAs": [
-        "https://calendly.com/circle5-nothingness/"
+        "%REACT_APP_CALENDLY_URL%"
       ]
     }
     </script>
@@ -150,12 +150,12 @@
     </script>
     
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8JF8K7FB0"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA_ID%"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-F8JF8K7FB0');
+      gtag('config', '%REACT_APP_GA_ID%');
     </script>
   </head>
   <body>

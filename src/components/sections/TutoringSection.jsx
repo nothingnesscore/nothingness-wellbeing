@@ -50,7 +50,7 @@ export function TutoringSection() {
             💬 WhatsApp / Call
           </a>
           <p className="text-xs text-stone-500 dark:text-slate-400">
-            Or email: circle5.nothingness@proton.me
+            Or email: {process.env.REACT_APP_CONTACT_EMAIL}
           </p>
         </div>
         <p className="text-xs text-stone-500 dark:text-slate-400 mt-4">

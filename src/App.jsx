@@ -62,13 +62,13 @@ const App = () => {
           </p>
           <div className="mt-6 space-y-2">
             <a href="https://wa.me/918240213971" target="_blank" rel="noopener noreferrer" className="block text-stone-600 hover:text-stone-900 transition py-2 px-4 rounded-lg hover:bg-stone-100">
-              💬 WhatsApp: +91 82402 13971 (Preferred)
+              💬 WhatsApp: {process.env.REACT_APP_WHATSAPP_PHONE} (Preferred)
             </a>
-            <a href="tel:+918902460513" className="block text-stone-600 hover:text-stone-900 transition py-2 px-4 rounded-lg hover:bg-stone-100">
-              📞 Call: +91 89024 60513
+            <a href={`tel:${process.env.REACT_APP_CONTACT_PHONE_RAW}`} className="block text-stone-600 hover:text-stone-900 transition py-2 px-4 rounded-lg hover:bg-stone-100">
+              📞 Call: {process.env.REACT_APP_CONTACT_PHONE}
             </a>
-            <a href="mailto:circle5.nothingness@proton.me" className="block text-stone-600 hover:text-stone-900 transition py-2 px-4 rounded-lg hover:bg-stone-100">
-              📧 circle5.nothingness@proton.me
+            <a href={`mailto:${process.env.REACT_APP_CONTACT_EMAIL}`} className="block text-stone-600 hover:text-stone-900 transition py-2 px-4 rounded-lg hover:bg-stone-100">
+              📧 {process.env.REACT_APP_CONTACT_EMAIL}
             </a>
           </div>
         </div>

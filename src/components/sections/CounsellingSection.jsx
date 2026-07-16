@@ -78,7 +78,7 @@ export function CounsellingSection() {
           <div className="flex items-start gap-3">
             <MapPin className="w-5 h-5 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-medium text-stone-900 dark:text-slate-50 text-sm md:text-base">Kolkata, Hazra More, Kalighat</p>
+              <p className="font-medium text-stone-900 dark:text-slate-50 text-sm md:text-base">Kolkata, {process.env.REACT_APP_LOCATION}</p>
               <p className={`text-xs md:text-sm mt-1 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>Near Kalighat Fire Station, 700026</p>
               <p className="text-xs text-stone-500 dark:text-slate-400 mt-2 italic">(Exact location confirmed upon booking)</p>
             </div>
@@ -89,7 +89,7 @@ export function CounsellingSection() {
       {/* Booking Section */}
       <GlowingCard darkMode={darkMode} className="mb-8 flex flex-col items-center justify-center p-8 md:p-12 glass-card rounded-2xl w-full text-center hover-lift">
         <h4 className="text-lg md:text-xl font-light mb-3">Book Your First Session</h4>
-        <p className="text-xs text-stone-500 dark:text-slate-400 mb-6 italic max-w-md mx-auto">💡 <strong>Quick Tip:</strong> Use WhatsApp (+91 82402 13971) for fastest response, or call +91 89024 60513 anytime.</p>
+        <p className="text-xs text-stone-500 dark:text-slate-400 mb-6 italic max-w-md mx-auto">💡 <strong>Quick Tip:</strong> Use WhatsApp ({process.env.REACT_APP_WHATSAPP_PHONE}) for fastest response, or call {process.env.REACT_APP_CONTACT_PHONE} anytime.</p>
         <button
           data-cal-link={selectedCounselling === 'online' ? 'nothingness-wb/online' : 'nothingness-wb/in-person'}
           data-cal-origin="https://cal.com"
@@ -109,7 +109,7 @@ export function CounsellingSection() {
 
       {/* Fallback email contact */}
       <div className="text-center text-xs md:text-sm text-stone-500 dark:text-slate-400 mt-8 mb-4">
-        Prefer email? Reach out directly to <a href="mailto:circle5.nothingness@proton.me" className="text-stone-700 dark:text-slate-200 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50 dark:hover:text-white underline">circle5.nothingness@proton.me</a>
+        Prefer email? Reach out directly to <a href={`mailto:${process.env.REACT_APP_CONTACT_EMAIL}`} className="text-stone-700 dark:text-slate-200 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50 dark:hover:text-white underline">{process.env.REACT_APP_CONTACT_EMAIL}</a>
       </div>
     </section>
   );

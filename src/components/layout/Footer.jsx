@@ -19,19 +19,19 @@ export function Footer() {
             <h4 className={`font-light text-base md:text-lg mb-4 ${darkMode ? 'text-slate-50' : 'text-stone-900 dark:text-slate-50'}`}>Contact</h4>
             <div className="mb-3">
               <p className={`text-xs mb-1 ${darkMode ? 'text-slate-400' : 'text-stone-500 dark:text-slate-400'}`}>Primary Contact</p>
-              <a href="tel:+918902460513" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
-                📞 +91 89024 60513 (Calls & Messages)
+              <a href={`tel:${process.env.REACT_APP_CONTACT_PHONE_RAW}`} className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
+                📞 {process.env.REACT_APP_CONTACT_PHONE} (Calls & Messages)
               </a>
             </div>
             <div className="mb-3">
               <p className={`text-xs mb-1 ${darkMode ? 'text-slate-400' : 'text-stone-500 dark:text-slate-400'}`}>WhatsApp Preferred</p>
               <a href="https://wa.me/918240213971" target="_blank" rel="noopener noreferrer" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
-                💬 +91 82402 13971 (WhatsApp Direct)
+                💬 {process.env.REACT_APP_WHATSAPP_PHONE} (WhatsApp Direct)
               </a>
             </div>
-            <a href="mailto:circle5.nothingness@proton.me" className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 mb-3 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
+            <a href={`mailto:${process.env.REACT_APP_CONTACT_EMAIL}`} className={`text-xs md:text-sm hover:opacity-70 transition flex items-center gap-2 mb-3 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>
               <Mail className="w-4 h-4 flex-shrink-0" />
-              circle5.nothingness@proton.me
+              {process.env.REACT_APP_CONTACT_EMAIL}
             </a>
             <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-stone-500 dark:text-slate-400'}`}>
               Response within 24-48 hours

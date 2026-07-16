@@ -58,6 +58,15 @@ npm run build
 Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
+## 🌟 Acknowledgments & Credits
+
+While the core layout, design system, and business logic of this site were custom-tailored for Nothingness Well-Being, several advanced UI interactions were heavily inspired by open-source experiments and community resources:
+
+- **[Remvze Experiments](https://remvze.com/experiments/)**: Profound inspiration and foundational concepts for the micro-interactions, specifically the physics-based Tab Bar, the Glowing Cards, and smooth Accordion behaviors. 
+- **Framer Motion**: The animation physics engine that makes these fluid transitions possible.
+
+We believe in the beauty of shared knowledge and open-source ecosystems.
+
 ## 📄 License
 
 The source code in this repository is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
