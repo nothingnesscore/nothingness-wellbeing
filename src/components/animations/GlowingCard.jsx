@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
 
 export function GlowingCard({ children, className = "", darkMode = false }) {
   const [showGlow, setShowGlow] = useState(false);
