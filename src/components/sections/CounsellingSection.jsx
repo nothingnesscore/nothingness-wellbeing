@@ -43,30 +43,32 @@ export function CounsellingSection() {
 
       {/* Session Info Cards */}
       <div className="grid md:grid-cols-2 gap-6 md:gap-10 mb-12">
-        <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
-          
-          <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
-            <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
+        <GlowingCard darkMode={darkMode} className="glass-card hover-lift h-full">
+          <div className="p-10 md:p-12 flex flex-col items-center text-center h-full">
+            <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
+              <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
+            </div>
+            
+            <h4 className="text-lg md:text-xl font-medium mb-4">Flexible Scheduling</h4>
+            <p className="text-stone-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+              {selectedCounselling === 'online'
+                ? 'Book online sessions at times that suit your rhythm. Sessions via video call, with flexibility around your life.'
+                : 'Available for in-person sessions in Kolkata. A calm, welcoming space designed for authentic dialogue.'}
+            </p>
           </div>
-          
-          <h4 className="text-lg md:text-xl font-medium mb-4">Flexible Scheduling</h4>
-          <p className="text-stone-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
-            {selectedCounselling === 'online'
-              ? 'Book online sessions at times that suit your rhythm. Sessions via video call, with flexibility around your life.'
-              : 'Available for in-person sessions in Kolkata. A calm, welcoming space designed for authentic dialogue.'}
-          </p>
         </GlowingCard>
 
-        <GlowingCard darkMode={darkMode} className="glass-card hover-lift p-10 md:p-12 flex flex-col items-center text-center h-full">
-          
-          <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
-            <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
+        <GlowingCard darkMode={darkMode} className="glass-card hover-lift h-full">
+          <div className="p-10 md:p-12 flex flex-col items-center text-center h-full">
+            <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
+              <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
+            </div>
+            
+            <h4 className="text-lg md:text-xl font-medium mb-4">Personalised Approach</h4>
+            <p className="text-stone-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+              Pricing tailored to your circumstances. No one-size-fits-all. Reach out to explore what feels right for you.
+            </p>
           </div>
-          
-          <h4 className="text-lg md:text-xl font-medium mb-4">Personalised Approach</h4>
-          <p className="text-stone-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
-            Pricing tailored to your circumstances. No one-size-fits-all. Reach out to explore what feels right for you.
-          </p>
         </GlowingCard>
       </div>
 

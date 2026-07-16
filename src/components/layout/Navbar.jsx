@@ -60,6 +60,13 @@ export function Navbar() {
             asLink={!isHome}
           />
           
+          {isHome && (
+            <div className={`flex items-center gap-4 text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
+              <Link to="/blog" className="hover:text-stone-900 dark:hover:text-white transition">Blog</Link>
+              <Link to="/app" className="hover:text-stone-900 dark:hover:text-white transition">App</Link>
+            </div>
+          )}
+          
           {/* Theme Mode Selector */}
           <div className={`flex gap-1 p-1 rounded-lg transition ${darkMode ? 'bg-gray-900' : 'bg-stone-100'}`}>
             <button 
@@ -116,9 +123,9 @@ export function Navbar() {
             className={`p-2 rounded-lg transition ${darkMode ? 'hover:bg-slate-800' : 'hover:bg-stone-100'}`}
           >
             {mobileMenuOpen ? (
-              <X className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`} />
+              <X className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-stone-600'}`} />
             ) : (
-              <Menu className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`} />
+              <Menu className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-stone-600'}`} />
             )}
           </button>
         </div>
@@ -128,27 +135,58 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="mobile-menu md:hidden absolute top-full left-0 right-0 mt-4 mx-4 bg-white/95 dark:bg-[#050505]/95 backdrop-blur-2xl border border-stone-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50">
           <div className="max-w-5xl mx-auto px-6 py-4 flex flex-col gap-3">
-            <Link 
-              to="/" 
-              onClick={() => setMobileMenuOpen(false)}
-              className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900'}`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/blog" 
-              onClick={() => setMobileMenuOpen(false)}
-              className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900'}`}
-            >
-              Blog
-            </Link>
-            <Link 
-              to="/app" 
-              onClick={() => setMobileMenuOpen(false)}
-              className={`text-sm transition py-2 ${darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 dark:text-slate-300 hover:text-stone-900'}`}
-            >
-              App
-            </Link>
+            {tabs.map((tab) => (
+              <React.Fragment key={tab.id}>
+                {isHome ? (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setActiveTab(tab.id);
+                      document.getElementById(tab.id)?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className={`text-sm text-left transition py-2 ${
+                      darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ) : (
+                  <Link
+                    to={tab.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`text-sm transition py-2 ${
+                      darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'
+                    }`}
+                  >
+                    {tab.label}
+                  </Link>
+                )}
+              </React.Fragment>
+            ))}
+            
+            {isHome && (
+              <>
+                <div className={`h-px w-full my-1 ${darkMode ? 'bg-white/10' : 'bg-stone-200'}`}></div>
+                <Link
+                  to="/blog"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`text-sm transition py-2 font-medium ${
+                    darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'
+                  }`}
+                >
+                  Blog
+                </Link>
+                <Link
+                  to="/app"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`text-sm transition py-2 font-medium ${
+                    darkMode ? 'text-slate-300 hover:text-slate-50' : 'text-stone-600 hover:text-stone-900'
+                  }`}
+                >
+                  App
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

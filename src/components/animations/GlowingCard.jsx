@@ -66,25 +66,6 @@ export function GlowingCard({ children, className = "", darkMode = false }) {
         )}
       </AnimatePresence>
 
-      {/* Hover Spotlight Layer */}
-      <AnimatePresence mode="wait">
-        {showGlow && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute pointer-events-none z-10"
-            style={{
-              width: '100%',
-              height: '100%',
-              left: 0,
-              top: 0,
-              background: `radial-gradient(circle 250px at ${mouseX.get()}px ${mouseY.get()}px, ${darkMode ? 'rgba(212, 175, 55, 0.04)' : 'rgba(168, 153, 104, 0.04)'}, transparent 80%)`,
-            }}
-          />
-        )}
-      </AnimatePresence>
-
       {/* Background Mask Layer (creates the 1px border effect + glassmorphism) */}
       <div className={`absolute top-[1px] left-[1px] right-[1px] bottom-[1px] rounded-[15px] z-0 backdrop-blur-2xl transition-colors duration-500 ${
         darkMode ? 'bg-[#050505]/70' : 'bg-white/70'
