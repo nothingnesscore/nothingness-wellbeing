@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
-import { getPosts } from '../services/hashnode';
+import { getPosts } from '../services/github';
 import { useTheme } from '../context/ThemeContext';
 
 export function Blog() {
@@ -36,9 +36,9 @@ export function Blog() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
           {posts.length > 0 ? posts.map((post) => (
-            <Link key={post.id} to={`/blog/${post.slug}`} className="block group">
+            <Link key={post.id} to={`/blog/${post.number}`} className="block group">
               <div className={`h-full glass-card rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#d4af37]/10 ${darkMode ? 'border-white/5' : 'border-stone-200/50'}`}>
-                {post.coverImage && (
+                {post.coverImage && post.coverImage.url && (
                   <div className="w-full h-48 overflow-hidden">
                     <img 
                       src={post.coverImage.url} 
@@ -79,7 +79,8 @@ export function Blog() {
             </Link>
           )) : (
             <div className="col-span-full text-center py-20">
-              <p className="text-stone-500 dark:text-slate-400 text-lg">No articles found just yet. Check back soon.</p>
+              <p className="text-stone-500 dark:text-slate-400 text-lg mb-4">No articles found just yet.</p>
+              <p className="text-sm text-stone-400">Create a GitHub Issue in the repository with the label <strong>blog</strong> to add one!</p>
             </div>
           )}
         </div>

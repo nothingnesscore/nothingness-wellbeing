@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
-import { getPostBySlug } from '../services/hashnode';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { getPostByNumber } from '../services/github';
 import { useTheme } from '../context/ThemeContext';
 
 export function BlogPost() {
-  const { slug } = useParams();
+  const { slug } = useParams(); // Using slug variable for the issue number
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const { darkMode } = useTheme();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getPostBySlug(slug).then((fetchedPost) => {
+    getPostByNumber(slug).then((fetchedPost) => {
       setPost(fetchedPost);
       setLoading(false);
     });
@@ -35,6 +37,13 @@ export function BlogPost() {
         </Link>
       </div>
     );
+  }
+
+  // Pre-process markdown to remove the first image if it was used as cover image
+  let displayContent = post.content || '';
+  if (post.coverImage?.url) {
+    const coverImageRegex = /!\[.*?\]\(.*?\)/;
+    displayContent = displayContent.replace(coverImageRegex, '');
   }
 
   return (
@@ -63,8 +72,8 @@ export function BlogPost() {
           {post.title}
         </h1>
 
-        {post.coverImage && (
-          <div className={`w-full aspect-[21/9] overflow-hidden rounded-2xl glass-card ${darkMode ? 'border-white/5' : 'border-stone-200/50'}`}>
+        {post.coverImage && post.coverImage.url && (
+          <div className={`w-full aspect-[21/9] overflow-hidden rounded-2xl glass-card mb-8 ${darkMode ? 'border-white/5' : 'border-stone-200/50'}`}>
             <img 
               src={post.coverImage.url} 
               alt={post.title} 
@@ -74,17 +83,20 @@ export function BlogPost() {
         )}
       </header>
 
-      {/* Blog Content with Tailwind Typography */}
+      {/* Blog Content with Tailwind Typography and React Markdown */}
       <div className={`
         prose prose-lg max-w-none font-sans leading-relaxed
         prose-headings:font-serif prose-headings:font-light 
         prose-a:text-[#d4af37] prose-a:no-underline hover:prose-a:underline
+        prose-img:rounded-xl prose-img:shadow-lg
         ${darkMode 
           ? 'prose-invert prose-p:text-slate-300 prose-headings:text-slate-50 prose-strong:text-slate-200 prose-blockquote:border-[#d4af37] prose-blockquote:text-slate-400 prose-li:text-slate-300' 
           : 'prose-p:text-stone-700 prose-headings:text-stone-900 prose-strong:text-stone-900 prose-blockquote:border-[#d4af37] prose-blockquote:text-stone-500 prose-li:text-stone-700'}
-      `}
-      dangerouslySetInnerHTML={{ __html: post.content.html }}
-      />
+      `}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {displayContent}
+        </ReactMarkdown>
+      </div>
     </article>
   );
 }
