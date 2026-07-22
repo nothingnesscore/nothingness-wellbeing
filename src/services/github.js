@@ -85,3 +85,32 @@ export async function getPostByNumber(number) {
     return null;
   }
 }
+
+export async function createPost(title, content, token) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: title,
+        body: content,
+        labels: ['blog']
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to create post');
+    }
+    
+    const issue = await response.json();
+    return issue.number; // Return the new issue number to redirect to it
+  } catch (error) {
+    console.error("Error creating GitHub issue:", error);
+    throw error;
+  }
+}
