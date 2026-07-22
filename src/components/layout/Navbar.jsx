@@ -20,10 +20,31 @@ export function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 100);
+
+      if (location.pathname === '/') {
+        const sections = ['counselling', 'tutoring', 'resources'];
+        let current = 'home';
+
+        if (window.scrollY > 200) {
+          for (const section of sections) {
+            const element = document.getElementById(section);
+            if (element) {
+              const rect = element.getBoundingClientRect();
+              // When the section is in the top 300px of the viewport
+              if (rect.top <= 300 && rect.bottom >= 100) {
+                current = section;
+                break; // Keep the first matching section
+              }
+            }
+          }
+        }
+        
+        setActiveTab((prev) => (prev !== current ? current : prev));
+      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   const isHome = location.pathname === '/';
   

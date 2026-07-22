@@ -6,7 +6,7 @@ import { GlowingCard } from '../animations/GlowingCard';
 export function TutoringSection() {
   const { darkMode } = useTheme();
   return (
-    <section id="tutoring" className="mb-20 reveal-on-scroll">
+    <section id="tutoring" className="mb-20 scroll-mt-32 reveal-on-scroll">
       <div className="text-center mb-12">
         <h3 className="text-3xl md:text-4xl font-light mb-3">Psychology Tutoring</h3>
         <div className="zen-line"></div>
