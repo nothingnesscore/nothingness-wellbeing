@@ -33,6 +33,7 @@ export function Navbar() {
     { id: 'resources', label: 'Resources' }
   ] : [
     { id: 'home', label: 'Home', path: '/' },
+    { id: 'blog', label: 'Blog', path: '/blog' },
     { id: 'app', label: 'App', path: '/app' }
   ];
 
@@ -61,6 +62,7 @@ export function Navbar() {
           
           {isHome && (
             <div className={`flex items-center gap-4 text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
+              <Link to="/blog" className="hover:text-stone-900 dark:hover:text-white transition">Blog</Link>
               <Link to="/app" className="hover:text-stone-900 dark:hover:text-white transition">App</Link>
             </div>
           )}

@@ -8,6 +8,8 @@ import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Home } from './pages/Home';
+import { Blog } from './pages/Blog';
+import { BlogPost } from './pages/BlogPost';
 import { AppDashboard } from './pages/AppDashboard';
 import { BackgroundAnimation } from './components/animations/BackgroundAnimation';
 
@@ -29,6 +31,8 @@ const AppContent = () => {
       <main className="relative z-10 pt-16">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/app" element={<AppDashboard />} />
         </Routes>
       </main>
