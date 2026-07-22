@@ -33,7 +33,6 @@ export function Navbar() {
     { id: 'resources', label: 'Resources' }
   ] : [
     { id: 'home', label: 'Home', path: '/' },
-    { id: 'blog', label: 'Blog', path: '/blog' },
     { id: 'app', label: 'App', path: '/app' }
   ];
 
@@ -62,7 +61,6 @@ export function Navbar() {
           
           {isHome && (
             <div className={`flex items-center gap-4 text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
-              <Link to="/blog" className="hover:text-stone-900 dark:hover:text-white transition">Blog</Link>
               <Link to="/app" className="hover:text-stone-900 dark:hover:text-white transition">App</Link>
             </div>
           )}
@@ -135,7 +133,7 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="mobile-menu md:hidden absolute top-full left-0 right-0 mt-4 mx-4 bg-white/95 dark:bg-[#050505]/95 backdrop-blur-2xl border border-stone-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50">
           <div className="max-w-5xl mx-auto px-6 py-4 flex flex-col gap-3">
-            {tabs.filter(tab => tab.id !== 'blog').map((tab) => (
+            {tabs.map((tab) => (
               <React.Fragment key={tab.id}>
                 {isHome ? (
                   <button
