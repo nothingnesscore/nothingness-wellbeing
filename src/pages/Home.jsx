@@ -4,8 +4,13 @@ import { CounsellingSection } from '../components/sections/CounsellingSection';
 import { TutoringSection } from '../components/sections/TutoringSection';
 import { ResourcesSection } from '../components/sections/ResourcesSection';
 import { FaqSection } from '../components/sections/FaqSection';
+import { useTheme } from '../context/ThemeContext';
+import { LiquidGlassCard } from '../components/animations/LiquidGlassCard';
+import { LiquidBackdropBlobs } from '../components/animations/LiquidBackdropBlobs';
 
 export function Home() {
+  const { darkMode } = useTheme();
+
   // Scroll Reveal Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,7 +37,10 @@ export function Home() {
     <>
       <HeroSection />
       
-      <div className="max-w-5xl mx-auto px-6 py-20">
+      <div className="max-w-5xl mx-auto px-6 py-20 relative">
+        {/* Ambient Section-Wide Fluid Bubbles Drifting Behind Glass Content */}
+        <LiquidBackdropBlobs variant="section" className="opacity-80" />
+
         <CounsellingSection />
         
         <div className="section-divider"></div>
@@ -58,12 +66,15 @@ export function Home() {
               </p>
             </div>
 
-            <div className="text-center">
-              <div className="inline-block px-8 py-6 rounded-2xl glass-card">
-                <p className="text-stone-600 dark:text-slate-300 text-sm md:text-base italic">
-                  We're gathering real feedback from our clients. Check back soon to see what they have to say.
+            <div className="max-w-2xl mx-auto text-center">
+              <LiquidGlassCard darkMode={darkMode} className="p-8 md:p-10">
+                <p className="text-stone-700 dark:text-slate-200 text-sm md:text-base italic font-serif leading-relaxed">
+                  "We're gathering authentic feedback from our clients as they experience our sessions. Check back soon to read their reflections."
                 </p>
-              </div>
+                <div className="mt-4 text-xs font-sans text-[#a89968] dark:text-[#d4af37] font-medium tracking-wide uppercase">
+                  Presence & Dialogue
+                </div>
+              </LiquidGlassCard>
             </div>
           </div>
         </section>

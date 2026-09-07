@@ -12,6 +12,7 @@ import { Blog } from './pages/Blog';
 import { BlogPost } from './pages/BlogPost';
 import { AppDashboard } from './pages/AppDashboard';
 import { BackgroundAnimation } from './components/animations/BackgroundAnimation';
+import { LiquidGlassFilter } from './components/animations/LiquidGlassFilter';
 
 const AppContent = () => {
   const { darkMode } = useTheme();
@@ -25,6 +26,7 @@ const AppContent = () => {
 
   return (
     <div className={`relative min-h-screen transition-colors duration-500 overflow-hidden ${darkMode ? 'text-slate-50 bg-[#050505]' : 'text-stone-900 bg-[#faf8f3]'}`}>
+      <LiquidGlassFilter />
       <BackgroundAnimation />
       
       <Navbar />

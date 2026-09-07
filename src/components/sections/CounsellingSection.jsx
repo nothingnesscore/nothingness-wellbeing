@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { Calendar, Mail, MapPin } from 'lucide-react';
+import { Calendar, Mail, MapPin, Sparkles, ArrowRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { GlowingCard } from '../animations/GlowingCard';
+import { LiquidGlassCard } from '../animations/LiquidGlassCard';
+import { LiquidBookingModal } from './LiquidBookingModal';
 
 export function CounsellingSection() {
   const { darkMode } = useTheme();
   const [selectedCounselling, setSelectedCounselling] = useState('online');
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
 
   return (
-    <section id="counselling" className="mb-20 scroll-mt-32 reveal-on-scroll">
+    <section id="counselling" className="mb-24 scroll-mt-32 reveal-on-scroll relative">
       <div className="text-center mb-12">
         <h3 className="text-3xl md:text-4xl font-light mb-3">Counselling</h3>
         <div className="zen-line"></div>
@@ -17,99 +19,148 @@ export function CounsellingSection() {
         </p>
       </div>
 
-      {/* Toggle for Online/In-person */}
-      <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-10">
-        <button
-          onClick={() => setSelectedCounselling('online')}
-          className={`px-4 md:px-6 py-2 rounded-full transition toggle-button text-sm md:text-base ${
-            selectedCounselling === 'online'
-              ? 'toggle-active'
-              : 'toggle-inactive'
-          }`}
+      {/* Liquid Glass Segmented Switcher for Online/In-person */}
+      <div className="flex justify-center mb-10">
+        <div 
+          className="p-1.5 rounded-full inline-flex gap-2 backdrop-blur-xl transition-all duration-300"
+          style={{
+            background: darkMode ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.03)',
+            border: darkMode ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(255, 255, 255, 0.8)',
+            boxShadow: darkMode ? '0 8px 24px rgba(0,0,0,0.5)' : '0 4px 16px rgba(180,160,130,0.12)',
+          }}
         >
-          Online Sessions
-        </button>
-        <button
-          onClick={() => setSelectedCounselling('inperson')}
-          className={`px-4 md:px-6 py-2 rounded-full transition toggle-button text-sm md:text-base ${
-            selectedCounselling === 'inperson'
-              ? 'toggle-active'
-              : 'toggle-inactive'
-          }`}
-        >
-          In-Person Sessions
-        </button>
+          <button
+            onClick={() => setSelectedCounselling('online')}
+            className={`px-5 md:px-7 py-2.5 rounded-full transition-all duration-300 text-sm md:text-base font-medium flex items-center gap-2 ${
+              selectedCounselling === 'online'
+                ? darkMode
+                  ? 'bg-gradient-to-r from-[#f3e5ab] to-[#d4af37] text-black shadow-lg shadow-[#d4af37]/20 font-semibold'
+                  : 'bg-white text-stone-900 shadow-md font-semibold'
+                : darkMode
+                ? 'text-slate-400 hover:text-white'
+                : 'text-stone-600 hover:text-stone-900'
+            }`}
+          >
+            Online Sessions
+          </button>
+          <button
+            onClick={() => setSelectedCounselling('inperson')}
+            className={`px-5 md:px-7 py-2.5 rounded-full transition-all duration-300 text-sm md:text-base font-medium flex items-center gap-2 ${
+              selectedCounselling === 'inperson'
+                ? darkMode
+                  ? 'bg-gradient-to-r from-[#f3e5ab] to-[#d4af37] text-black shadow-lg shadow-[#d4af37]/20 font-semibold'
+                  : 'bg-white text-stone-900 shadow-md font-semibold'
+                : darkMode
+                ? 'text-slate-400 hover:text-white'
+                : 'text-stone-600 hover:text-stone-900'
+            }`}
+          >
+            In-Person Sessions
+          </button>
+        </div>
       </div>
 
-      {/* Session Info Cards */}
+      {/* Session Info Cards using Liquid Glass */}
       <div className="grid md:grid-cols-2 gap-6 md:gap-10 mb-12">
-        <GlowingCard darkMode={darkMode} className="glass-card hover-lift h-full">
-          <div className="p-10 md:p-12 flex flex-col items-center text-center h-full">
-            <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
-              <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
+        <LiquidGlassCard darkMode={darkMode} className="h-full">
+          <div className="p-8 md:p-12 flex flex-col items-center text-center h-full">
+            <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center bg-stone-100/80 dark:bg-stone-900/60 mb-6 shadow-inner border border-stone-200/80 dark:border-white/10 transition-all duration-500 group-hover:scale-110 group-hover:border-[#d4af37]/50">
+              <Calendar className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] transition-colors" />
             </div>
             
-            <h4 className="text-lg md:text-xl font-medium mb-4">Flexible Scheduling</h4>
-            <p className="text-stone-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+            <h4 className="text-xl md:text-2xl font-light mb-4 text-stone-900 dark:text-slate-50">Flexible Scheduling</h4>
+            <p className="text-stone-600 dark:text-slate-300 text-sm md:text-base leading-relaxed font-sans">
               {selectedCounselling === 'online'
                 ? 'Book online sessions at times that suit your rhythm. Sessions via video call, with flexibility around your life.'
                 : 'Available for in-person sessions in Kolkata. A calm, welcoming space designed for authentic dialogue.'}
             </p>
           </div>
-        </GlowingCard>
+        </LiquidGlassCard>
 
-        <GlowingCard darkMode={darkMode} className="glass-card hover-lift h-full">
-          <div className="p-10 md:p-12 flex flex-col items-center text-center h-full">
-            <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-stone-100 dark:bg-stone-900/50 group-hover:bg-[#a89968] dark:group-hover:bg-[#d4af37] mb-6 shadow-inner border border-stone-200 dark:border-white/5 transition-all duration-500 group-hover:scale-110">
-              <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] group-hover:text-white dark:group-hover:text-[#050505]" />
+        <LiquidGlassCard darkMode={darkMode} className="h-full">
+          <div className="p-8 md:p-12 flex flex-col items-center text-center h-full">
+            <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center bg-stone-100/80 dark:bg-stone-900/60 mb-6 shadow-inner border border-stone-200/80 dark:border-white/10 transition-all duration-500 group-hover:scale-110 group-hover:border-[#d4af37]/50">
+              <Mail className="w-7 h-7 text-[#a89968] dark:text-[#d4af37] transition-colors" />
             </div>
             
-            <h4 className="text-lg md:text-xl font-medium mb-4">Personalised Approach</h4>
-            <p className="text-stone-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+            <h4 className="text-xl md:text-2xl font-light mb-4 text-stone-900 dark:text-slate-50">Personalised Approach</h4>
+            <p className="text-stone-600 dark:text-slate-300 text-sm md:text-base leading-relaxed font-sans">
               Pricing tailored to your circumstances. No one-size-fits-all. Reach out to explore what feels right for you.
             </p>
           </div>
-        </GlowingCard>
+        </LiquidGlassCard>
       </div>
 
       {/* Location Info for In-person */}
       {selectedCounselling === 'inperson' && (
-        <div className="glass-card p-6 rounded-2xl mb-10 fade-in">
-          <div className="flex items-start gap-3">
-            <MapPin className="w-5 h-5 text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505] flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="font-medium text-stone-900 dark:text-slate-50 text-sm md:text-base">Kolkata, {process.env.REACT_APP_LOCATION}</p>
-              <p className={`text-xs md:text-sm mt-1 ${darkMode ? 'text-slate-300' : 'text-stone-600 dark:text-slate-300 group-hover:text-white dark:group-hover:text-[#050505]'}`}>Near Kalighat Fire Station, 700026</p>
-              <p className="text-xs text-stone-500 dark:text-slate-400 mt-2 italic">(Exact location confirmed upon booking)</p>
+        <div className="mb-12 fade-in">
+          <LiquidGlassCard darkMode={darkMode} withBubbles={false} className="p-6 md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#d4af37]/10 border border-[#d4af37]/30 flex-shrink-0">
+                <MapPin className="w-6 h-6 text-[#a89968] dark:text-[#d4af37]" />
+              </div>
+              <div>
+                <p className="font-medium text-stone-900 dark:text-slate-50 text-base md:text-lg">
+                  Kolkata Sanctuary, {process.env.REACT_APP_LOCATION}
+                </p>
+                <p className={`text-xs md:text-sm mt-1 font-sans ${darkMode ? 'text-slate-300' : 'text-stone-600'}`}>
+                  Near Kalighat Fire Station, Kolkata — 700026
+                </p>
+                <p className="text-xs text-stone-500 dark:text-slate-400 mt-2 italic font-sans">
+                  (Quiet, confidential sanctuary space · Exact suite confirmed upon booking)
+                </p>
+              </div>
             </div>
-          </div>
+          </LiquidGlassCard>
         </div>
       )}
 
-      {/* Booking Section */}
-      <GlowingCard darkMode={darkMode} className="mb-8 flex flex-col items-center justify-center p-8 md:p-12 glass-card rounded-2xl w-full text-center hover-lift">
-        <h4 className="text-lg md:text-xl font-light mb-3">Book Your First Session</h4>
-        <p className="text-xs text-stone-500 dark:text-slate-400 mb-6 italic max-w-md mx-auto">💡 <strong>Quick Tip:</strong> Use WhatsApp ({process.env.REACT_APP_WHATSAPP_PHONE}) for fastest response, or call {process.env.REACT_APP_CONTACT_PHONE} anytime.</p>
-        <button
-          data-cal-link={selectedCounselling === 'online' ? 'nothingness-wb/online' : 'nothingness-wb/in-person'}
-          data-cal-origin="https://cal.com"
-          data-cal-config={JSON.stringify({ 
-            layout: "month_view", 
-            theme: darkMode ? "dark" : "light",
-            cssVarsPerTheme: {
-              light: { "cal-brand": "#a89968", "cal-brand-emphasis": "#7a6a48", "cal-bg": "#faf8f3", "cal-text": "#292524" },
-              dark: { "cal-brand": "#d4af37", "cal-brand-emphasis": "#b8942d", "cal-bg": "#000000", "cal-bg-muted": "#0a0a0a", "cal-text": "#f1f5f9", "cal-border": "#2d2d2d" }
-            }
-          })}
-          className="button-glass inline-flex items-center justify-center gap-2 text-sm md:text-base px-8 py-4 rounded-full font-medium z-30"
-        >
-          Open Booking Calendar
-        </button>
-      </GlowingCard>
+      {/* Liquid Glass Booking Experience Hub */}
+      <LiquidGlassCard darkMode={darkMode} className="mb-10 text-center p-8 md:p-14">
+        <div className="max-w-xl mx-auto flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-4 bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#8a7029] dark:text-[#f3e5ab]">
+            <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
+            <span>Interactive Liquid Glass Scheduler</span>
+          </div>
+
+          <h4 className="text-2xl md:text-3xl font-light mb-3 text-stone-900 dark:text-slate-50">
+            Reserve Your Session
+          </h4>
+          <p className="text-xs text-stone-500 dark:text-slate-400 mb-8 italic max-w-md mx-auto font-sans">
+            💡 WhatsApp ({process.env.REACT_APP_WHATSAPP_PHONE}) is preferred for instant confirmation.
+          </p>
+
+          {/* Glowing Liquid Glass Booking Window Button */}
+          <button
+            onClick={() => setBookingModalOpen(true)}
+            className="group relative inline-flex items-center justify-center gap-3 text-base md:text-lg px-9 py-4 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
+            style={{
+              background: darkMode
+                ? 'linear-gradient(135deg, #f5e7b2 0%, #d4af37 50%, #aa8520 100%)'
+                : 'linear-gradient(135deg, #292524 0%, #1c1917 100%)',
+              color: darkMode ? '#0a0a0a' : '#ffffff',
+              boxShadow: darkMode
+                ? '0 10px 32px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255,255,255,0.7)'
+                : '0 10px 28px rgba(41, 37, 36, 0.25), inset 0 1px 0 rgba(255,255,255,0.2)',
+            }}
+          >
+            <Calendar className="w-5 h-5" />
+            <span>Open Booking Window</span>
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </button>
+        </div>
+      </LiquidGlassCard>
+
+      {/* Liquid Glass Booking Modal Window */}
+      <LiquidBookingModal 
+        isOpen={bookingModalOpen} 
+        onClose={() => setBookingModalOpen(false)} 
+        defaultType={selectedCounselling}
+      />
 
       {/* Fallback email contact */}
-      <div className="text-center text-xs md:text-sm text-stone-500 dark:text-slate-400 mt-8 mb-4">
-        Prefer email? Reach out directly to <a href={`mailto:${process.env.REACT_APP_CONTACT_EMAIL}`} className="text-stone-700 dark:text-slate-200 dark:text-slate-300 hover:text-stone-900 dark:text-slate-50 dark:hover:text-white underline">{process.env.REACT_APP_CONTACT_EMAIL}</a>
+      <div className="text-center text-xs md:text-sm text-stone-500 dark:text-slate-400 mt-6 mb-2 font-sans">
+        Prefer email? Reach out directly to <a href={`mailto:${process.env.REACT_APP_CONTACT_EMAIL}`} className="text-stone-700 dark:text-slate-200 hover:text-stone-900 dark:hover:text-white underline">{process.env.REACT_APP_CONTACT_EMAIL}</a>
       </div>
     </section>
   );
