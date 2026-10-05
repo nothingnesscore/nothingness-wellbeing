@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Quote } from 'lucide-react';
 import { HeroSection } from '../components/sections/HeroSection';
 import { CounsellingSection } from '../components/sections/CounsellingSection';
 import { TutoringSection } from '../components/sections/TutoringSection';
@@ -10,6 +12,15 @@ import { LiquidBackdropBlobs } from '../components/animations/LiquidBackdropBlob
 
 export function Home() {
   const { darkMode } = useTheme();
+  const contentRef = useRef(null);
+
+  // Gentle scroll depth for the whole content column — slow enough to read as
+  // atmosphere rather than motion.
+  const { scrollYProgress } = useScroll({
+    target: contentRef,
+    offset: ['start end', 'end start'],
+  });
+  const ambientY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
 
   // Scroll Reveal Observer
   useEffect(() => {
@@ -36,27 +47,29 @@ export function Home() {
   return (
     <>
       <HeroSection />
-      
-      <div className="max-w-5xl mx-auto px-6 py-20 relative">
+
+      <div ref={contentRef} className="max-w-5xl mx-auto px-6 pt-8 pb-20 relative">
         {/* Ambient Section-Wide Fluid Bubbles Drifting Behind Glass Content */}
-        <LiquidBackdropBlobs variant="section" className="opacity-80" />
+        <motion.div style={{ y: ambientY }} className="absolute inset-0 -z-10">
+          <LiquidBackdropBlobs variant="section" className="opacity-80" />
+        </motion.div>
 
         <CounsellingSection />
-        
+
         <div className="section-divider"></div>
-        
+
         <TutoringSection />
-        
+
         <div className="section-divider"></div>
-        
+
         <ResourcesSection />
-        
+
         <div className="section-divider"></div>
-        
+
         <FaqSection />
 
         {/* Testimonials Section */}
-        <section className="py-16 px-6 relative z-10 reveal-on-scroll">
+        <section className="py-16 px-0 md:px-6 relative z-10 reveal-on-scroll">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h3 className="text-3xl md:text-4xl font-light mb-3">What Others Say</h3>
@@ -66,13 +79,23 @@ export function Home() {
               </p>
             </div>
 
-            <div className="max-w-2xl mx-auto text-center">
-              <LiquidGlassCard darkMode={darkMode} className="p-8 md:p-10">
+            <div className="max-w-2xl mx-auto">
+              <LiquidGlassCard darkMode={darkMode} className="p-8 md:p-12 text-center">
+                <Quote
+                  className={`w-7 h-7 mx-auto mb-5 ${
+                    darkMode ? 'text-[#d4af37]' : 'text-[#a89968]'
+                  }`}
+                  aria-hidden="true"
+                />
                 <p className="text-stone-700 dark:text-slate-200 text-sm md:text-base italic font-serif leading-relaxed">
-                  "We're gathering authentic feedback from our clients as they experience our sessions. Check back soon to read their reflections."
+                  &ldquo;We&rsquo;re gathering authentic feedback from our clients as they experience
+                  our sessions. Check back soon to read their reflections.&rdquo;
                 </p>
-                <div className="mt-4 text-xs font-sans text-[#a89968] dark:text-[#d4af37] font-medium tracking-wide uppercase">
-                  Presence & Dialogue
+                <div
+                  className="mt-6 text-xs font-sans font-medium tracking-wide uppercase"
+                  style={{ color: darkMode ? '#d4af37' : '#a89968' }}
+                >
+                  Presence &amp; Dialogue
                 </div>
               </LiquidGlassCard>
             </div>

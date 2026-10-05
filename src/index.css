@@ -347,3 +347,89 @@
   0% { transform: translate(0, 0) scale(1) translateZ(0); }
   100% { transform: translate(-3%, 3%) scale(1.05) translateZ(0); }
 }
+
+/* ------------------------------------------------------------------ */
+/* 3D depth utilities — complements the WebGL hero lens and the         */
+/* pointer-driven glass card tilt. Palette-locked to the brand tokens.  */
+/* ------------------------------------------------------------------ */
+@layer utilities {
+  /* Promote to its own layer so tilt/parallax stays on the compositor. */
+  .gpu {
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Static 3D tilt for decorative frames (no JS cost). */
+  .depth-tilt {
+    transform: perspective(1400px) rotateX(6deg) rotateY(-8deg);
+    transform-style: preserve-3d;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* Layered light/shadow on display type — reads as engraved, not flat. */
+  .text-depth {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.55),
+      0 2px 1px rgba(255, 255, 255, 0.25),
+      0 -1px 0 rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .text-depth {
+    text-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.6),
+      0 2px 2px rgba(0, 0, 0, 0.5),
+      0 0 34px rgba(212, 175, 55, 0.14);
+  }
+
+  /* Slow specular sweep across a glass surface. */
+  .glass-sheen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.28) 46%,
+      rgba(255, 255, 255, 0.42) 50%,
+      rgba(255, 255, 255, 0.28) 54%,
+      transparent 70%
+    );
+    background-size: 260% 100%;
+    animation: sheenSweep 9s ease-in-out infinite;
+  }
+
+  .dark .glass-sheen::after {
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(212, 175, 55, 0.14) 46%,
+      rgba(255, 255, 255, 0.16) 50%,
+      rgba(212, 175, 55, 0.14) 54%,
+      transparent 70%
+    );
+    background-size: 260% 100%;
+  }
+}
+
+@keyframes sheenSweep {
+  0%, 100% { background-position: 180% 0; }
+  50%      { background-position: -80% 0; }
+}
+
+/* Honour the OS motion preference globally. The 3D canvas and card tilt are
+   already gated in JS; this covers the ambient CSS animations too. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

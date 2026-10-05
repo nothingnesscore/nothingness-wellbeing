@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, X, Moon, Sun, CalendarDays } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import { useBooking } from '../../context/BookingContext';
 import { TabBar } from '../animations/TabBar';
 
 export function Navbar() {
   const { darkMode, darkModePreference, setDarkModePreference } = useTheme();
+  const { openBooking } = useBooking();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -87,6 +89,28 @@ export function Navbar() {
               <Link to="/app" className="hover:text-stone-900 dark:hover:text-white transition">App</Link>
             </div>
           )}
+
+          {/* Persistent booking CTA — opens the shared modal, never a cal.com
+              trigger itself (see BookingContext for why). */}
+          <button
+            type="button"
+            onClick={() => openBooking()}
+            className={`inline-flex items-center gap-2 rounded-full font-medium cursor-pointer transition-all duration-300 hover:scale-[1.04] active:scale-95 ${
+              scrolled ? 'px-3.5 py-2 text-xs' : 'px-4 py-2.5 text-sm'
+            }`}
+            style={{
+              background: darkMode
+                ? 'linear-gradient(135deg, #f5e7b2 0%, #d4af37 100%)'
+                : 'linear-gradient(135deg, #292524 0%, #1c1917 100%)',
+              color: darkMode ? '#0a0a0a' : '#ffffff',
+              boxShadow: darkMode
+                ? '0 6px 20px rgba(212,175,55,0.32), inset 0 1px 0 rgba(255,255,255,0.6)'
+                : '0 6px 16px rgba(41,37,36,0.22), inset 0 1px 0 rgba(255,255,255,0.18)',
+            }}
+          >
+            <CalendarDays className={scrolled ? 'w-3.5 h-3.5' : 'w-4 h-4'} />
+            <span className="hidden lg:inline">Reserve</span>
+          </button>
           
           {/* Theme Mode Selector */}
           <div className={`flex gap-1 p-1 rounded-lg transition ${darkMode ? 'bg-gray-900' : 'bg-stone-100'}`}>
@@ -199,6 +223,25 @@ export function Navbar() {
                 </Link>
               </>
             )}
+
+            {/* Mobile booking entry point */}
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                openBooking();
+              }}
+              className="mt-1 py-3 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 cursor-pointer"
+              style={{
+                background: darkMode
+                  ? 'linear-gradient(135deg, #f5e7b2 0%, #d4af37 100%)'
+                  : 'linear-gradient(135deg, #292524 0%, #1c1917 100%)',
+                color: darkMode ? '#0a0a0a' : '#ffffff',
+              }}
+            >
+              <CalendarDays className="w-4 h-4" />
+              <span>Reserve a Session</span>
+            </button>
           </div>
         </div>
       )}

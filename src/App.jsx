@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { getCalApi } from "@calcom/embed-react";
 
 import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { BookingProvider } from './context/BookingContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Home } from './pages/Home';
@@ -82,11 +83,13 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <Router>
-        <AppContent />
-        <SpeedInsights />
-        <Analytics />
-      </Router>
+      <BookingProvider>
+        <Router>
+          <AppContent />
+          <SpeedInsights />
+          <Analytics />
+        </Router>
+      </BookingProvider>
     </ThemeProvider>
   );
 };

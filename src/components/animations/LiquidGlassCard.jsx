@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { LiquidBackdropBlobs } from './LiquidBackdropBlobs';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 /**
  * LiquidGlassCard
@@ -10,6 +11,7 @@ import { LiquidBackdropBlobs } from './LiquidBackdropBlobs';
  * - Chromatic dispersion prism fringe along perimeter
  * - Internal fluid color bubbles floating behind the frosted lens
  * - 45° dynamic light source reaction to cursor motion
+ * - Pointer-driven 3D tilt on a real perspective (disabled for reduced motion)
  * - Full accessibility and seamless light/dark theme adaptation
  */
 export function LiquidGlassCard({
@@ -22,6 +24,7 @@ export function LiquidGlassCard({
 }) {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
+  const reducedMotion = usePrefersReducedMotion();
 
   // Mouse tracking with smooth spring dampening for fluid glass response
   const rawMouseX = useMotionValue(0.5);
@@ -32,6 +35,21 @@ export function LiquidGlassCard({
 
   const spotlightX = useTransform(mouseX, val => `calc(${val * 100}% - 140px)`);
   const spotlightY = useTransform(mouseY, val => `calc(${val * 100}% - 140px)`);
+
+  // 3D tilt. Kept to a few degrees — enough to catch the light along the rim,
+  // not enough to make reading uncomfortable.
+  const tiltEnabled = interactive && !reducedMotion;
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [4.5, -4.5]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-4.5, 4.5]), springConfig);
+
+  // Note: a `useSpring(source)` is overwritten from its source on every frame, so
+  // the hover lift has to be written to the raw value the spring is reading from.
+  const rawLift = useMotionValue(0);
+  const lift = useSpring(rawLift, springConfig);
+
+  useEffect(() => {
+    rawLift.set(isHovered && tiltEnabled ? -6 : 0);
+  }, [isHovered, tiltEnabled, rawLift]);
 
   useEffect(() => {
     const card = cardRef.current;
@@ -64,16 +82,19 @@ export function LiquidGlassCard({
   }, [interactive, rawMouseX, rawMouseY]);
 
   return (
-    <div
+    <motion.div
       ref={cardRef}
       onClick={onClick}
-      className={`relative rounded-3xl group transition-all duration-500 overflow-hidden ${
-        interactive ? 'hover:-translate-y-1.5' : ''
-      } ${className}`}
+      className={`relative rounded-3xl group transition-shadow duration-500 overflow-hidden ${className}`}
       style={{
         // Base liquid glass physics styling
         backdropFilter: 'blur(30px) saturate(140%)',
         WebkitBackdropFilter: 'blur(30px) saturate(140%)',
+        // 3D tilt is composed by framer-motion so it never fights the rim layers.
+        transformPerspective: 1200,
+        rotateX: tiltEnabled ? rotateX : 0,
+        rotateY: tiltEnabled ? rotateY : 0,
+        y: lift,
       }}
     >
       {/* 1. Underlying Animating Liquid Color Bubbles */}
@@ -160,6 +181,6 @@ export function LiquidGlassCard({
       <div className="relative z-10 w-full h-full">
         {children}
       </div>
-    </div>
+    </motion.div>
   );
 }
